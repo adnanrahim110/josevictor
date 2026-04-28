@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-/* ─── Inline Social SVG Icons ──────────────────────────────────────────────── */
+// Inline Social SVG Icons
 const socialIcons: Record<string, React.ReactNode> = {
   Facebook: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
@@ -41,7 +41,7 @@ const socialIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-/* ─── Brand Colors for Social Hover Glow ───────────────────────────────────── */
+// Brand Colors for Social Hover Glow
 const socialBrandColors: Record<string, string> = {
   Facebook:
     "hover:border-[#1877F2]/50 hover:shadow-[0_0_20px_rgba(24,119,242,0.3)]",
