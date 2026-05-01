@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import { Bodoni_Moda, Outfit } from "next/font/google";
 import "./globals.css";
 
-
 const bodoni = Bodoni_Moda({
   subsets: ["latin"],
   variable: "--font-bodoni-moda",

@@ -8,6 +8,7 @@ import { Reviews } from "@/components/home/reviews";
 import { Services } from "@/components/home/services";
 import { StrategicBar } from "@/components/home/strategic-bar";
 import { WhoWeServe } from "@/components/home/who-we-serve";
+import { GlobalContact } from "@/components/layout/global-contact";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <Appointments />
       <BillPay />
       <Reviews />
+      <GlobalContact />
     </>
   );
 }
