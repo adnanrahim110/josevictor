@@ -30,7 +30,7 @@ export const CONTACT = {
   registrationId: "PR OGPE 2024-607685-PU-374659",
   phone: "787-470-9054",
   phoneRaw: "7874709054",
-  email: "jvj@adminservicespr.com",
+  email: "hola@jovejimenez.com",
   website: "https://adminservicespr.com",
 } as const;
 

@@ -1,29 +1,23 @@
-import { Appointments } from "@/components/home/appointments";
-import { BillPay } from "@/components/home/bill-pay";
-import { CtaSection } from "@/components/home/cta-section";
-import { Features } from "@/components/home/features";
-import { Hero } from "@/components/home/hero";
-import { HowWeHelp } from "@/components/home/how-we-help";
-import { Reviews } from "@/components/home/reviews";
-import { Services } from "@/components/home/services";
-import { StrategicBar } from "@/components/home/strategic-bar";
-import { WhoWeServe } from "@/components/home/who-we-serve";
-import { GlobalContact } from "@/components/layout/global-contact";
+import { HomeHero } from "@/components/home/home-hero";
+import { PurposeMessage } from "@/components/home/purpose-message";
+import { BookShowcase } from "@/components/home/book-showcase";
+import { Differentiation } from "@/components/home/differentiation";
+import { ServicesOverview } from "@/components/home/services-overview";
+import { ImpactTestimonials } from "@/components/home/impact-testimonials";
+import { AboutJove } from "@/components/home/about-jove";
+import { FinalCta } from "@/components/home/final-cta";
 
 export default function Home() {
   return (
-    <>
-      <Hero />
-      <StrategicBar />
-      <Features />
-      <WhoWeServe />
-      <HowWeHelp />
-      <CtaSection />
-      <Services />
-      <Appointments />
-      <BillPay />
-      <Reviews />
-      <GlobalContact />
-    </>
+    <main className="relative flex flex-col min-h-screen">
+      <HomeHero />
+      <PurposeMessage />
+      <BookShowcase />
+      <Differentiation />
+      <ServicesOverview />
+      <ImpactTestimonials />
+      <AboutJove />
+      <FinalCta />
+    </main>
   );
 }

@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { ScrollStage } from "@/components/layout/scroll-stage";
 import { SmoothScrolling } from "@/components/layout/smooth-scrolling";
 import type { Metadata } from "next";
 import { Bodoni_Moda, Outfit } from "next/font/google";
@@ -31,7 +32,8 @@ export default function RootLayout({
       lang="en"
       className={`h-full antialiased ${outfit.variable} ${bodoni.variable}`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-white text-primary-950">
+      <body className="min-h-full flex flex-col font-sans bg-white text-primary-950 relative">
+        <ScrollStage />
         <SmoothScrolling>
           <Header />
           {children}

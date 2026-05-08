@@ -66,7 +66,7 @@ function InputField({
             onBlur={() => setIsFocused(false)}
             required={required}
             className={cn(
-              "w-full bg-transparent border-2 border-primary-200 rounded-xl px-4 pb-3 pt-6 text-primary-950 transition-all duration-300 outline-none resize-none min-h-[140px]",
+              "w-full bg-transparent border-2 border-primary-200 rounded-xl px-4 pb-3 pt-6 text-primary-950 transition-all duration-300 outline-none resize-none min-h-35",
               isFocused
                 ? "border-primary-500 shadow-[0_0_15px_rgba(126,149,125,0.15)]"
                 : "group-hover/field:border-primary-300",

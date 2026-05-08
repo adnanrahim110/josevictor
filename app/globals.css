@@ -40,6 +40,14 @@
   button {
     @apply cursor-pointer;
   }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    overflow-x: clip;
+  }
 }
 
 @layer utilities {}
