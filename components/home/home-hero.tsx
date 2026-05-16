@@ -2,218 +2,184 @@
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { Title } from "@/components/ui/title";
+import { useLocale } from "@/lib/i18n";
+import { usePrefersReducedMotion } from "@/lib/motion";
 import { useGSAP } from "@gsap/react";
-import { motion } from "framer-motion";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, BookOpen } from "lucide-react";
-import Image from "next/image";
 import { useRef } from "react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 export function HomeHero() {
+  const { t } = useLocale();
+  const reduce = usePrefersReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  const textColRef = useRef<HTMLDivElement>(null);
-  const imageColRef = useRef<HTMLDivElement>(null);
-  const blobARef = useRef<HTMLDivElement>(null);
-  const blobBRef = useRef<HTMLDivElement>(null);
-  const blobCRef = useRef<HTMLDivElement>(null);
-  const hintRef = useRef<HTMLDivElement>(null);
+  const textWrapRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
+      const section = sectionRef.current;
+      if (!section) return;
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.to(textColRef.current, {
-          y: -60,
-          opacity: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom 30%",
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+      const eyebrow = section.querySelector<HTMLElement>(".hero-eyebrow");
+      const words = section.querySelectorAll<HTMLElement>(".hero-word");
+      const tagline = section.querySelector<HTMLElement>(".hero-tagline");
+      const desc = section.querySelector<HTMLElement>(".hero-desc");
+      const ctas = section.querySelector<HTMLElement>(".hero-ctas");
+      const scrollHint = section.querySelector<HTMLElement>(".hero-scroll");
+      const scrollLine =
+        section.querySelector<HTMLElement>(".hero-scroll-line");
+      const divider = section.querySelector<HTMLElement>(".hero-divider");
 
-        gsap.to(imageColRef.current, {
-          y: 80,
-          scale: 0.94,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-
-        gsap.to(blobARef.current, {
-          y: 120,
-          x: -40,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-        gsap.to(blobBRef.current, {
-          y: 160,
-          x: 30,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-        gsap.to(blobCRef.current, {
-          y: 200,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-
-        gsap.fromTo(
-          hintRef.current,
-          { opacity: 0, y: -8 },
-          { opacity: 1, y: 0, duration: 0.6, delay: 1.2, ease: "power2.out" },
+      if (reduce) {
+        gsap.set(
+          [eyebrow, ...words, tagline, desc, ctas, scrollHint, divider],
+          { opacity: 1, y: 0, scale: 1, scaleX: 1 },
         );
-        gsap.to(hintRef.current?.querySelector(".hint-line") ?? null, {
-          scaleY: 0.4,
+        return;
+      }
+
+      gsap.set(eyebrow, { opacity: 0, y: 15 });
+      gsap.set(words, { opacity: 0, y: 80, rotateX: 30 });
+      gsap.set(tagline, { opacity: 0, y: 20 });
+      gsap.set(desc, { opacity: 0, y: 20 });
+      gsap.set(ctas, { opacity: 0, y: 20 });
+      gsap.set(scrollHint, { opacity: 0, y: -10 });
+      if (divider) gsap.set(divider, { scaleX: 0, transformOrigin: "center" });
+
+      const tl = gsap.timeline();
+
+      tl.to(
+        eyebrow,
+        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+        0.4,
+      );
+
+      tl.to(
+        words,
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power3.out",
+        },
+        0.6,
+      );
+
+      if (divider) {
+        tl.to(divider, { scaleX: 1, duration: 1.2, ease: "power3.inOut" }, 1.4);
+      }
+
+      tl.to(
+        tagline,
+        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+        1.6,
+      );
+      tl.to(desc, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 1.9);
+      tl.to(ctas, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 2.2);
+      tl.to(
+        scrollHint,
+        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+        2.6,
+      );
+
+      if (scrollLine) {
+        gsap.to(scrollLine, {
+          scaleY: 0.3,
           transformOrigin: "top",
-          duration: 1.4,
+          duration: 1.5,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
-          delay: 1.2,
+          delay: 3.2,
         });
-      });
+      }
     },
-    { scope: sectionRef },
+    { scope: sectionRef, dependencies: [reduce] },
   );
+
+  const headline = [
+    t("hero.headline.live"),
+    t("hero.headline.love"),
+    t("hero.headline.learn"),
+  ];
 
   return (
     <section
       ref={sectionRef}
-      className="relative pt-32 pb-24 md:pt-32 md:pb-32 overflow-hidden z-0 min-h-screen flex items-center"
+      aria-label={t("hero.aria.section")}
+      className="relative flex items-center justify-center min-h-svh overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <motion.div
-          ref={blobARef}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute -top-40 -left-40 size-150 rounded-full bg-primary-200/50 mix-blend-multiply will-change-transform"
-        />
-      </div>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 w-full h-full z-0"
+        style={{
+          background:
+            "radial-gradient(circle at top, var(--color-secondary-200) 0%, transparent 60%)",
+          opacity: 0.4,
+        }}
+      />
 
-      <Container className="grid grid-cols-1 lg:grid-cols-[auto_45%] gap-16 lg:gap-12 items-center relative z-10">
+      <Container className="relative z-10 flex flex-col items-center justify-center pt-28 pb-20 sm:pt-32 sm:pb-24 min-h-svh text-center pointer-events-none">
         <div
-          ref={textColRef}
-          className="flex flex-col space-y-8 z-10 will-change-transform"
+          ref={textWrapRef}
+          className="flex flex-col items-center gap-6 sm:gap-8 max-w-4xl w-full pointer-events-auto"
         >
-          <Title as="h1">
-            Live. Love. Learn.
-            <br />
-            <span className="text-secondary-600 italic font-light">
-              You are not lost...
-              <br className="hidden md:block" /> you are becoming.
+          <span className="hero-eyebrow inline-block px-4 py-1.5 rounded-full border border-primary-200 bg-white/40 backdrop-blur-md font-heading italic text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.35em] uppercase text-primary-700/80 shadow-sm">
+            {t("hero.eyebrow")}
+          </span>
+
+          <h1 className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 md:gap-x-8 lg:gap-x-12 gap-y-2 mt-2 sm:mt-4">
+            {headline.map((word, i) => (
+              <span
+                key={i}
+                className="hero-word inline-block font-heading text-5xl sm:text-7xl md:text-8xl leading-[0.9] tracking-tight text-primary-950"
+                style={{ perspective: "800px" }}
+              >
+                {word}
+              </span>
+            ))}
+          </h1>
+
+          <div className="flex items-center gap-4 w-full max-w-md mt-2">
+            <div className="hero-divider flex-1 h-px bg-linear-to-r from-transparent via-primary-400 to-transparent" />
+          </div>
+
+          <div className="hero-tagline font-heading italic text-xl sm:text-3xl md:text-4xl lg:text-5xl text-primary-800 leading-snug mt-2">
+            <span>{t("hero.subheadline.line1")}</span>
+            <span className="inline-block ml-3">
+              {t("hero.subheadline.line2")}
             </span>
-          </Title>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-            className="text-lg md:text-xl text-primary-800 max-w-lg leading-relaxed"
-          >
-            Strategy, purpose, and transformation for individuals and
-            organizations ready to evolve.
-          </motion.p>
+          <p className="hero-desc max-w-2xl text-sm sm:text-base md:text-lg lg:text-xl text-primary-700/80 leading-relaxed font-sans mt-2 font-medium bg-white/20 backdrop-blur-xs px-4 py-3 sm:px-6 rounded-2xl">
+            {t("hero.subheadline2")}
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-            className="flex flex-wrap items-start gap-4 pt-2"
-          >
+          <div className="hero-ctas flex flex-col sm:flex-row gap-4 sm:gap-5 mt-4 sm:mt-6 w-full sm:w-auto">
             <Button
               href="#book"
               size="lg"
-              className="bg-primary-950 text-white border-2 border-primary-950 hover:bg-secondary-600 min-w-56 shadow-xl shadow-primary-950/20"
               icon={<BookOpen className="w-5 h-5" />}
               iconPosition="start"
+              className="text-sm sm:text-base h-12 sm:h-14 px-6 sm:px-8 shadow-xl shadow-primary-900/10 justify-center"
             >
-              Explore the Book
+              {t("hero.cta.book")}
             </Button>
             <Button
-              href="/contact"
-              size="lg"
+              href="#contact"
               variant="outline"
-              className="border-primary-950 text-primary-950 min-w-56 bg-white/40 backdrop-blur-sm"
+              size="lg"
               icon={<ArrowRight className="w-5 h-5" />}
               iconPosition="end"
+              className="text-sm sm:text-base h-12 sm:h-14 px-6 sm:px-8 bg-white/40 backdrop-blur-sm border-primary-200 hover:bg-white/80 justify-center"
             >
-              Work With Me
+              {t("hero.cta.work")}
             </Button>
-          </motion.div>
-        </div>
-
-        <motion.div
-          ref={imageColRef}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-          className="relative -right-5 w-[120%] aspect-4/3.5 z-10 will-change-transform"
-        >
-          <motion.div
-            ref={blobBRef}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
-            className="absolute top-0 -right-20 size-80 rounded-[70%_30%_61%_39%/48%_53%_47%_52%] bg-secondary-200/60 mix-blend-multiply will-change-transform"
-          />
-          <div
-            ref={blobCRef}
-            className="absolute bottom-2 left-0 w-64 h-64 rounded-[70%_30%_61%_39%/48%_53%_47%_52%] bg-secondary-200/80 -z-10 will-change-transform"
-          />
-          <div className="absolute -bottom-8 -right-8 w-72 h-72 rounded-[70%_30%_61%_39%/48%_53%_47%_52%] bg-primary-200/80 -z-10" />
-
-          <div className="relative w-full h-full rounded-[55%_45%_50%_50%/58%_53%_47%_42%] overflow-hidden shadow-2xl bg-primary-100">
-            <Image
-              src="https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&q=80&w=1200"
-              alt="Quiet workspace inviting reflection"
-              fill
-              className="object-cover"
-              priority
-            />
           </div>
-        </motion.div>
+        </div>
       </Container>
-
-      <div
-        ref={hintRef}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3 pointer-events-none"
-      >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-primary-600 font-semibold">
-          Scroll
-        </span>
-        <div className="hint-line w-px h-10 bg-linear-to-b from-primary-700 to-transparent origin-top" />
-      </div>
     </section>
   );
 }

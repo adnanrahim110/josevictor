@@ -1,15 +1,47 @@
 import { HomeHero } from "@/components/home/home-hero";
 import { PurposeMessage } from "@/components/home/purpose-message";
-import { BookShowcase } from "@/components/home/book-showcase";
-import { Differentiation } from "@/components/home/differentiation";
-import { ServicesOverview } from "@/components/home/services-overview";
-import { ImpactTestimonials } from "@/components/home/impact-testimonials";
-import { AboutJove } from "@/components/home/about-jove";
-import { FinalCta } from "@/components/home/final-cta";
+import dynamic from "next/dynamic";
+
+const BookShowcase = dynamic(() =>
+  import("@/components/home/book-showcase").then((m) => ({
+    default: m.BookShowcase,
+  })),
+);
+const Differentiation = dynamic(() =>
+  import("@/components/home/differentiation").then((m) => ({
+    default: m.Differentiation,
+  })),
+);
+const ServicesOverview = dynamic(() =>
+  import("@/components/home/services-overview").then((m) => ({
+    default: m.ServicesOverview,
+  })),
+);
+const ImpactTestimonials = dynamic(() =>
+  import("@/components/home/impact-testimonials").then((m) => ({
+    default: m.ImpactTestimonials,
+  })),
+);
+const AboutJove = dynamic(() =>
+  import("@/components/home/about-jove").then((m) => ({
+    default: m.AboutJove,
+  })),
+);
+const FinalCta = dynamic(() =>
+  import("@/components/home/final-cta").then((m) => ({
+    default: m.FinalCta,
+  })),
+);
+
+import { RealisticPlantBackground } from "@/components/home/realistic-plant";
 
 export default function Home() {
   return (
-    <main className="relative flex flex-col min-h-screen">
+    <main
+      id="main-content"
+      className="relative flex flex-col min-h-screen"
+    >
+      <RealisticPlantBackground />
       <HomeHero />
       <PurposeMessage />
       <BookShowcase />

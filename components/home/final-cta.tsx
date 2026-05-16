@@ -1,121 +1,229 @@
 "use client";
 
-import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { Container } from "@/components/ui/container";
+import { RevealText } from "@/components/ui/reveal-text";
+import { LINKS } from "@/constants/content/links";
+import { useLocale } from "@/lib/i18n";
+import { usePrefersReducedMotion } from "@/lib/motion";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { useRef } from "react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const REVEAL_SELECTOR = "[data-final-reveal]";
+const PETAL_SELECTOR = "[data-final-petal]";
+
 export function FinalCta() {
-  const containerRef = useRef<HTMLElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const magneticRef = useRef<HTMLDivElement>(null);
+  const { t } = useLocale();
+  const reduce = usePrefersReducedMotion();
 
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
+  const sectionRef = useRef<HTMLElement>(null);
+  const primaryWrapRef = useRef<HTMLDivElement>(null);
+  const secondaryWrapRef = useRef<HTMLDivElement>(null);
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from(contentRef.current?.children ?? [], {
-        opacity: 0,
-        y: 40,
+  useGSAP(
+    () => {
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const revealItems = Array.from(
+        section.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
+      );
+      const petals = Array.from(
+        section.querySelectorAll<HTMLElement>(PETAL_SELECTOR),
+      );
+      const cleanups: (() => void)[] = [];
+
+      if (reduce) {
+        gsap.set(revealItems, { opacity: 1, y: 0 });
+        gsap.set(petals, { opacity: 1, y: 0, rotate: 0, scale: 1 });
+        return;
+      }
+
+      gsap.set(revealItems, { opacity: 0, y: 28 });
+      gsap.set(petals, { opacity: 0, y: 28, rotate: -3, scale: 0.96 });
+
+      const revealTween = gsap.to(revealItems, {
+        opacity: 1,
+        y: 0,
         duration: 0.9,
         stagger: 0.12,
         ease: "power3.out",
-        scrollTrigger: { trigger: containerRef.current, start: "top 75%", once: true },
+        scrollTrigger: {
+          trigger: section,
+          start: "top 72%",
+          once: true,
+        },
       });
-    });
 
-    mm.add("(prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
-      const el = magneticRef.current;
-      if (!el) return;
+      const petalTween = gsap.to(petals, {
+        opacity: 1,
+        y: 0,
+        rotate: 0,
+        scale: 1,
+        duration: 1,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 78%",
+          once: true,
+        },
+      });
 
-      const xTo = gsap.quickTo(el, "x", { duration: 0.5, ease: "power3.out" });
-      const yTo = gsap.quickTo(el, "y", { duration: 0.5, ease: "power3.out" });
+      const setupMagnetic = (
+        wrapper: HTMLDivElement | null,
+        strength = 0.16,
+      ) => {
+        if (!wrapper) return;
 
-      const onMove = (e: MouseEvent) => {
-        const rect = el.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        xTo((e.clientX - cx) * 0.18);
-        yTo((e.clientY - cy) * 0.18);
+        const xTo = gsap.quickTo(wrapper, "x", {
+          duration: 0.45,
+          ease: "power3.out",
+        });
+        const yTo = gsap.quickTo(wrapper, "y", {
+          duration: 0.45,
+          ease: "power3.out",
+        });
+
+        const onMove = (e: MouseEvent) => {
+          const rect = wrapper.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          xTo((e.clientX - cx) * strength);
+          yTo((e.clientY - cy) * strength);
+        };
+        const onLeave = () => {
+          xTo(0);
+          yTo(0);
+        };
+
+        wrapper.addEventListener("mousemove", onMove);
+        wrapper.addEventListener("mouseleave", onLeave);
+
+        cleanups.push(() => {
+          wrapper.removeEventListener("mousemove", onMove);
+          wrapper.removeEventListener("mouseleave", onLeave);
+        });
       };
-      const onLeave = () => {
-        xTo(0);
-        yTo(0);
-      };
 
-      el.addEventListener("mousemove", onMove);
-      el.addEventListener("mouseleave", onLeave);
+      if (window.matchMedia("(pointer: fine)").matches) {
+        setupMagnetic(primaryWrapRef.current, 0.18);
+        setupMagnetic(secondaryWrapRef.current, 0.14);
+      }
 
       return () => {
-        el.removeEventListener("mousemove", onMove);
-        el.removeEventListener("mouseleave", onLeave);
+        revealTween.scrollTrigger?.kill();
+        revealTween.kill();
+        petalTween.scrollTrigger?.kill();
+        petalTween.kill();
+        cleanups.forEach((fn) => fn());
       };
-    });
-  }, { scope: containerRef });
+    },
+    { scope: sectionRef, dependencies: [reduce] },
+  );
 
   return (
     <section
-      ref={containerRef}
-      className="relative py-24 md:py-32 overflow-hidden"
+      ref={sectionRef}
+      id="contact"
+      aria-label={t("finalCta.aria.section")}
+      className="relative overflow-hidden scroll-mt-24 bg-[linear-gradient(135deg,var(--color-secondary-50)_0%,var(--color-primary-50)_48%,white_100%)] py-20 text-primary-950 md:py-28 lg:py-32"
     >
       <Container className="relative z-10">
-        <div
-          ref={cardRef}
-          className="relative bg-primary-950 text-white rounded-[32px] md:rounded-[48px] p-10 md:p-20 lg:p-24 shadow-2xl shadow-primary-950/20 overflow-hidden"
-        >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-secondary-500/15 blur-[120px] rounded-full pointer-events-none" />
-
-          <div ref={contentRef} className="relative max-w-4xl mx-auto text-center flex flex-col items-center">
-            <span className="text-xs font-semibold tracking-widest text-secondary-300 uppercase mb-6">
-              Your Next Step
+        <div className="grid min-h-[440px] md:min-h-[540px] items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:gap-16">
+          <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left">
+            <span
+              data-final-reveal
+              className="font-heading text-xs italic uppercase tracking-[0.3em] sm:tracking-[0.35em] text-primary-700/80 sm:text-sm"
+            >
+              {t("finalCta.eyebrow")}
             </span>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-semibold mb-12 leading-tight">
-              If you’re ready to take your vision to the{" "}
-              <span className="text-secondary-400 italic">next level</span>—
-            </h2>
+            <RevealText
+              as="h2"
+              splitBy="word"
+              stagger={0.045}
+              duration={0.9}
+              start="top 85%"
+              className="mt-6 sm:mt-7 max-w-3xl font-heading text-4xl leading-[1.04] text-primary-950 sm:text-5xl md:text-6xl"
+            >
+              {t("finalCta.heading")}
+            </RevealText>
 
-            <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
-              <div ref={magneticRef} className="will-change-transform">
+            <div
+              data-final-reveal
+              className="mt-8 md:mt-10 flex flex-col gap-4 sm:flex-row w-full sm:w-auto"
+            >
+              <div
+                ref={primaryWrapRef}
+                className="inline-flex will-change-transform"
+              >
                 <Button
-                  href="/contact"
+                  href={LINKS.contact}
                   size="lg"
-                  className="w-full sm:w-auto text-lg px-10 h-16 rounded-full bg-white text-primary-950 hover:bg-secondary-100 hover:text-primary-950 shadow-2xl"
+                  variant="secondary"
                   icon={<ArrowRight className="w-5 h-5" />}
                   iconPosition="end"
+                  className="h-14 sm:h-16 px-6 sm:px-8 text-sm sm:text-base shadow-2xl shadow-secondary-300/45 justify-center w-full sm:w-auto"
                 >
-                  Work With Me
+                  {t("finalCta.cta.work")}
                 </Button>
               </div>
-              <Button
-                href="#book"
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto text-lg px-10 h-16 rounded-full border-2 border-primary-700 bg-transparent hover:bg-primary-800 text-white"
-                icon={<BookOpen className="w-5 h-5" />}
-                iconPosition="start"
-              >
-                Explore the Book
-              </Button>
-            </div>
 
-            <p className="mt-12 text-sm text-primary-400">
-              Or write to{" "}
-              <a
-                href="mailto:hola@jovejimenez.com"
-                className="text-secondary-300 hover:text-secondary-200 underline-offset-4 hover:underline transition-colors"
+              <div
+                ref={secondaryWrapRef}
+                className="inline-flex will-change-transform"
               >
-                hola@jovejimenez.com
-              </a>
-            </p>
+                <Button
+                  href="#book"
+                  size="lg"
+                  variant="outline"
+                  icon={<BookOpen className="w-5 h-5" />}
+                  iconPosition="start"
+                  className="h-14 sm:h-16 border-primary-500 bg-white/45 px-6 sm:px-8 text-sm sm:text-base backdrop-blur-sm justify-center w-full sm:w-auto"
+                >
+                  {t("finalCta.cta.book")}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            aria-hidden
+            className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[500px]"
+          >
+            <div
+              data-final-petal
+              className="absolute left-1/2 top-1/2 h-64 w-40 -translate-x-1/2 -translate-y-1/2 rounded-[999px_999px_180px_180px] bg-white/70 shadow-2xl shadow-primary-900/10 backdrop-blur-sm sm:h-80 sm:w-52"
+            />
+            <div
+              data-final-petal
+              className="absolute left-[18%] top-[21%] h-52 w-32 rotate-[-18deg] rounded-[999px_999px_160px_160px] bg-primary-100/80 shadow-xl shadow-primary-900/5 sm:h-64 sm:w-40"
+            />
+            <div
+              data-final-petal
+              className="absolute right-[14%] top-[28%] h-56 w-36 rotate-[17deg] rounded-[999px_999px_160px_160px] bg-secondary-100/90 shadow-xl shadow-secondary-900/5 sm:h-72 sm:w-44"
+            />
+            <div
+              data-final-petal
+              className="absolute bottom-[10%] left-[26%] h-40 w-28 rotate-[28deg] rounded-[999px_999px_140px_140px] bg-primary-200/55 shadow-lg shadow-primary-900/5 sm:h-48 sm:w-32"
+            />
+
+            <div
+              data-final-reveal
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <span className="select-none font-heading text-[7rem] italic leading-none text-primary-950/10 sm:text-[9rem] md:text-[11rem]">
+                {t("header.brand")}
+              </span>
+            </div>
           </div>
         </div>
       </Container>

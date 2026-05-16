@@ -1,0 +1,26 @@
+import type { Dict } from "../en";
+import { common } from "./common";
+import { header } from "./header";
+import { footer } from "./footer";
+import { hero } from "./hero";
+import { purpose } from "./purpose";
+import { book } from "./book";
+import { differentiation } from "./differentiation";
+import { services } from "./services";
+import { impact } from "./impact";
+import { about } from "./about";
+import { finalCta } from "./final-cta";
+
+export const es: Dict = {
+  ...common,
+  ...header,
+  ...footer,
+  ...hero,
+  ...purpose,
+  ...book,
+  ...differentiation,
+  ...services,
+  ...impact,
+  ...about,
+  ...finalCta,
+};

@@ -29,6 +29,16 @@
 
   --font-heading: var(--font-bodoni-moda);
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --ease-organic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-ceremonial: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.5, 1.7, 0.45, 0.95);
+  --ease-pollen: cubic-bezier(0.45, 0, 0.55, 1);
+
+  --duration-quick: 400ms;
+  --duration-base: 800ms;
+  --duration-slow: 1200ms;
+  --duration-ceremonial: 1800ms;
 }
 
 @layer base {

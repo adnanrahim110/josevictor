@@ -1,106 +1,250 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
+import { useLocale } from "@/lib/i18n";
+import { usePrefersReducedMotion } from "@/lib/motion";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const REVEAL_SELECTOR = "[data-purpose-reveal]";
+const THREAD_SELECTOR = "[data-purpose-thread]";
+const UNDERLINE_SELECTOR = "[data-purpose-underline]";
+
 export function PurposeMessage() {
-  const containerRef = useRef<HTMLElement>(null);
-  const introRef = useRef<HTMLParagraphElement>(null);
-  const quoteRef = useRef<HTMLParagraphElement>(null);
-  const outroRef = useRef<HTMLParagraphElement>(null);
+  const { t } = useLocale();
+  const reduce = usePrefersReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
+  useGSAP(
+    () => {
+      const section = sectionRef.current;
+      if (!section) return;
 
-    mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
-      const words = quoteRef.current?.querySelectorAll(".q-word") ?? [];
+      const revealItems = Array.from(
+        section.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
+      );
+      const thread = section.querySelector<HTMLElement>(THREAD_SELECTOR);
+      const underline =
+        section.querySelector<SVGPathElement>(UNDERLINE_SELECTOR);
 
-      const tl = gsap.timeline({
+      if (underline) {
+        const length = underline.getTotalLength();
+        underline.style.strokeDasharray = `${length}`;
+        underline.style.strokeDashoffset = `${length}`;
+      }
+
+      if (reduce) {
+        gsap.set(revealItems, { opacity: 1, y: 0 });
+        if (thread) gsap.set(thread, { scaleY: 1 });
+        if (underline) underline.style.strokeDashoffset = "0";
+        return;
+      }
+
+      gsap.set(revealItems, { opacity: 0, y: 28 });
+      if (thread) {
+        gsap.set(thread, { scaleY: 0, transformOrigin: "top center" });
+      }
+
+      const triggers: ScrollTrigger[] = [];
+
+      const revealTween = gsap.to(revealItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.14,
+        ease: "power3.out",
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          invalidateOnRefresh: true,
+          trigger: section,
+          start: "top 72%",
+          once: true,
         },
       });
 
-      tl.fromTo(introRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-      );
-      tl.fromTo(words,
-        { opacity: 0.15 },
-        { opacity: 1, stagger: 0.15, duration: 1, ease: "none" },
-        0.8,
-      );
-      tl.fromTo(outroRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
-        "+=0.3",
-      );
-    });
+      if (revealTween.scrollTrigger) triggers.push(revealTween.scrollTrigger);
 
-    mm.add("(prefers-reduced-motion: no-preference) and (max-width: 767px)", () => {
-      gsap.from([introRef.current, quoteRef.current, outroRef.current], {
-        opacity: 0,
-        y: 30,
-        duration: 0.9,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: { trigger: containerRef.current, start: "top 80%", once: true },
-      });
-    });
-  }, { scope: containerRef });
+      if (thread) {
+        const threadTween = gsap.to(thread, {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 78%",
+            end: "bottom 58%",
+            scrub: 1,
+          },
+        });
 
-  const message = "Real growth happens when you align what you do with who you are.";
-  const words = message.split(" ");
+        if (threadTween.scrollTrigger) triggers.push(threadTween.scrollTrigger);
+      }
+
+      if (underline) {
+        const underlineTween = gsap.to(underline, {
+          strokeDashoffset: 0,
+          duration: 1.2,
+          ease: "power2.inOut",
+          scrollTrigger: {
+            trigger: underline,
+            start: "top 86%",
+            once: true,
+          },
+        });
+
+        if (underlineTween.scrollTrigger) {
+          triggers.push(underlineTween.scrollTrigger);
+        }
+      }
+
+      return () => {
+        triggers.forEach((trigger) => trigger.kill());
+      };
+    },
+    { scope: sectionRef, dependencies: [reduce] },
+  );
 
   return (
     <section
-      ref={containerRef}
+      ref={sectionRef}
       id="purpose"
-      className="relative scroll-mt-24 md:h-[200vh]"
+      aria-label={t("purpose.aria.section")}
+      className="relative overflow-hidden scroll-mt-24 py-20 md:py-28 lg:py-32"
     >
-      <div className="md:sticky md:top-0 md:h-screen flex items-center justify-center py-24 md:py-0">
-        <Container>
-          <div className="max-w-5xl mx-auto text-center flex flex-col items-center justify-center">
-            <p
-              ref={introRef}
-              className="text-lg md:text-xl text-primary-600 font-medium mb-10 max-w-2xl"
-            >
-              For years, I searched for answers in work, knowledge, and experience. But I discovered something deeper:
-            </p>
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-primary-200 to-transparent"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-linear-to-b from-white/0 via-primary-50/80 to-white/0"
+      />
 
-            <p
-              ref={quoteRef}
-              className="text-3xl md:text-5xl lg:text-6xl font-heading font-semibold text-primary-950 leading-[1.15] mb-12"
-            >
-              {words.map((word, i) => (
-                <span key={i} className="q-word inline-block mr-[0.25em]">
-                  {word}
-                </span>
-              ))}
-            </p>
+      <Container className="relative z-10">
+        <div className="grid gap-10 md:gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center lg:gap-16">
+          <PurposeIntro
+            eyebrow={t("purpose.aria.section")}
+            lead={t("purpose.lead.line1")}
+            discovery={t("purpose.lead.line2")}
+          />
 
-            <p
-              ref={outroRef}
-              className="text-lg md:text-xl text-primary-600 font-medium max-w-2xl"
-            >
-              Today, everything I build lives at that intersection—between{" "}
-              <span className="text-secondary-600 font-semibold italic">strategy</span> and{" "}
-              <span className="text-secondary-600 font-semibold italic">humanity</span>.
-            </p>
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute left-0 top-0 hidden h-full w-px bg-primary-200 md:block"
+            />
+            <div
+              aria-hidden
+              data-purpose-thread
+              className="absolute left-0 top-0 hidden h-full w-px origin-top bg-secondary-500 md:block"
+            />
+
+            <div className="flex flex-col gap-10 md:pl-10 lg:gap-12">
+              <PurposeInsight>{t("purpose.insight")}</PurposeInsight>
+              <PurposeClosing
+                prefix={t("purpose.outro.prefix")}
+                punchline={t("purpose.punchline")}
+              />
+            </div>
           </div>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </section>
+  );
+}
+
+function PurposeIntro({
+  eyebrow,
+  lead,
+  discovery,
+}: {
+  eyebrow: string;
+  lead: string;
+  discovery: string;
+}) {
+  return (
+    <header
+      data-purpose-reveal
+      className="flex max-w-xl flex-col gap-6 text-left"
+    >
+      <span className="w-fit border-b border-secondary-500 pb-2 font-heading text-xs italic uppercase tracking-[0.3em] text-primary-700/80 sm:tracking-[0.35em] sm:text-sm">
+        {eyebrow}
+      </span>
+
+      <div className="flex flex-col gap-5">
+        <p className="font-sans text-base font-medium leading-relaxed text-primary-700/90 sm:text-lg md:text-xl">
+          {lead}
+        </p>
+        <p className="font-heading text-3xl italic leading-tight text-primary-950 sm:text-4xl md:text-5xl">
+          {discovery}
+        </p>
+      </div>
+    </header>
+  );
+}
+
+function PurposeInsight({ children }: { children: string }) {
+  return (
+    <article
+      data-purpose-reveal
+      className="relative border-b border-primary-200 py-8 sm:py-10"
+    >
+      <span
+        aria-hidden
+        className="absolute left-[-46px] bg-white top-10 hidden size-3 rounded-full border-2 border-secondary-500 md:block"
+      />
+      <h2 className="max-w-4xl font-heading text-3xl leading-[1.08] text-primary-950 sm:text-4xl md:text-5xl">
+        {children}
+      </h2>
+    </article>
+  );
+}
+
+function PurposeClosing({
+  prefix,
+  punchline,
+}: {
+  prefix: string;
+  punchline: string;
+}) {
+  return (
+    <div data-purpose-reveal className="relative max-w-3xl">
+      <span
+        aria-hidden
+        className="absolute left-[-46px] bg-white top-3 hidden size-3 rounded-full border-2 border-primary-400 md:block"
+      />
+      <p className="font-sans text-sm font-medium leading-relaxed text-primary-700/90 sm:text-base md:text-lg">
+        {prefix}
+      </p>
+      <div className="relative mt-3 inline-block pr-3">
+        <p className="font-heading text-2xl italic leading-tight text-secondary-700 sm:text-3xl md:text-4xl">
+          {punchline}
+        </p>
+        <PurposeUnderline />
+      </div>
+    </div>
+  );
+}
+
+function PurposeUnderline() {
+  return (
+    <svg
+      viewBox="0 0 520 34"
+      preserveAspectRatio="none"
+      className="absolute -bottom-4 left-0 h-8 w-full text-secondary-600"
+      fill="none"
+      aria-hidden
+    >
+      <path
+        data-purpose-underline
+        className="stroke-current"
+        strokeWidth="3"
+        strokeLinecap="round"
+        d="M6 20 C88 6 166 28 252 17 C338 6 422 11 514 15"
+      />
+    </svg>
   );
 }

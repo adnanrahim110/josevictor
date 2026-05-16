@@ -1,7 +1,9 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { ScrollStage } from "@/components/layout/scroll-stage";
+import { SkipLink } from "@/components/layout/skip-link";
 import { SmoothScrolling } from "@/components/layout/smooth-scrolling";
+import { LocaleProvider } from "@/lib/i18n";
 import type { Metadata } from "next";
 import { Bodoni_Moda, Outfit } from "next/font/google";
 import "./globals.css";
@@ -33,12 +35,15 @@ export default function RootLayout({
       className={`h-full antialiased ${outfit.variable} ${bodoni.variable}`}
     >
       <body className="min-h-full flex flex-col font-sans bg-white text-primary-950 relative">
-        <ScrollStage />
-        <SmoothScrolling>
-          <Header />
-          {children}
-          <Footer />
-        </SmoothScrolling>
+        <LocaleProvider>
+          <SkipLink />
+          <ScrollStage />
+          <SmoothScrolling>
+            <Header />
+            {children}
+            <Footer />
+          </SmoothScrolling>
+        </LocaleProvider>
       </body>
     </html>
   );

@@ -3,7 +3,11 @@
     "allow": [
       "Bash(pnpm exec *)",
       "Bash(pnpm build *)",
-      "Bash(git ls-tree *)"
+      "Bash(git ls-tree *)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Bash(pnpm add *)",
+      "Bash(npx next *)"
     ]
   }
 }

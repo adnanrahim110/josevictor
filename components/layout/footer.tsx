@@ -1,18 +1,15 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
-import {
-  CONTACT,
-  LEGAL_LINKS,
-  NAV_LINKS,
-  SERVICE_LINKS,
-  SOCIAL_LINKS,
-} from "@/constants";
-import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { LINKS } from "@/constants/content/links";
+import { FOOTER_EXPLORE, FOOTER_LEGAL } from "@/constants/content/nav";
+import { CONTACT, SOCIAL_LINKS } from "@/constants";
+import { useLocale } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+import { useLenis } from "lenis/react";
+import { ArrowUp, ArrowUpRight, Calendar, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 
-// Inline Social SVG Icons
 const socialIcons: Record<string, React.ReactNode> = {
   Facebook: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
@@ -41,46 +38,36 @@ const socialIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-// Brand Colors for Social Hover Glow
 const socialBrandColors: Record<string, string> = {
   Facebook:
-    "hover:border-[#1877F2]/50 hover:shadow-[0_0_20px_rgba(24,119,242,0.3)]",
+    "hover:border-[#1877F2]/60 hover:shadow-[0_0_20px_rgba(24,119,242,0.25)]",
   Instagram:
-    "hover:border-[#E4405F]/50 hover:shadow-[0_0_20px_rgba(228,64,95,0.3)]",
+    "hover:border-[#E4405F]/60 hover:shadow-[0_0_20px_rgba(228,64,95,0.25)]",
   LinkedIn:
-    "hover:border-[#0A66C2]/50 hover:shadow-[0_0_20px_rgba(10,102,194,0.3)]",
-  X: "hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]",
+    "hover:border-[#0A66C2]/60 hover:shadow-[0_0_20px_rgba(10,102,194,0.25)]",
+  X: "hover:border-white/40 hover:shadow-[0_0_20px_rgba(255,255,255,0.12)]",
   YouTube:
-    "hover:border-[#FF0000]/50 hover:shadow-[0_0_20px_rgba(255,0,0,0.3)]",
+    "hover:border-[#FF0000]/60 hover:shadow-[0_0_20px_rgba(255,0,0,0.25)]",
 };
 
-const socialBrandBg: Record<string, string> = {
-  Facebook: "bg-[#1877F2]",
-  Instagram: "bg-[#E4405F]",
-  LinkedIn: "bg-[#0A66C2]",
-  X: "bg-white/20",
-  YouTube: "bg-[#FF0000]",
-};
-
-function FooterLink({
+function FooterNavLink({
   href,
+  external,
   children,
-  external = false,
 }: {
   href: string;
-  children: React.ReactNode;
   external?: boolean;
+  children: React.ReactNode;
 }) {
-  const linkProps = external
+  const props = external
     ? { target: "_blank" as const, rel: "noopener noreferrer" }
     : {};
-
   return (
     <li>
       <Link
         href={href}
-        {...linkProps}
-        className="group inline-flex items-center gap-1 text-primary-400 transition-colors duration-300 hover:text-white"
+        {...props}
+        className="group inline-flex items-center gap-1 text-primary-300 transition-colors duration-300 hover:text-white"
       >
         <span className="relative overflow-hidden">
           <span className="block">{children}</span>
@@ -95,163 +82,108 @@ function FooterLink({
 }
 
 export function Footer() {
+  const { t } = useLocale();
+  const lenis = useLenis();
   const currentYear = new Date().getFullYear();
+
+  const scrollToTop = () => {
+    if (lenis) {
+      lenis.scrollTo(0);
+    } else if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <footer className="relative overflow-hidden bg-primary-950 text-primary-50">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-2/3 bg-linear-to-r from-transparent via-primary-600/40 to-transparent" />
+      <div
+        aria-hidden
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-2/3 bg-gradient-to-r from-transparent via-secondary-500/40 to-transparent"
+      />
 
-      <Container className="pt-20 pb-16 lg:pt-28 lg:pb-20">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-3 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <Link href="/" className="inline-block">
-                <span className="font-heading text-5xl font-bold tracking-tight text-white">
-                  JVJ
-                </span>
-                <span className="ml-2 font-sans text-lg font-medium tracking-normal text-primary-300">
-                  Consulting
-                </span>
-              </Link>
-              <p className="mt-6 max-w-sm text-sm leading-relaxed text-primary-400">
-                Your partner in strategic business consulting and virtual social
-                services. We empower businesses and individuals with holistic
-                solutions for growth, sustainability, and well-being.
-              </p>
-            </motion.div>
+      <Container className="pt-20 pb-12 lg:pt-24 lg:pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-10">
+          <div className="md:col-span-5 lg:col-span-5 space-y-6">
+            <Link href="/" className="inline-block group">
+              <span className="font-heading italic text-5xl sm:text-6xl text-secondary-200 tracking-tight leading-none">
+                {t("header.brand")}
+              </span>
+            </Link>
+            <p className="max-w-sm text-sm leading-relaxed text-primary-300 font-sans">
+              {t("footer.tagline")}
+            </p>
           </div>
 
-          <div className="lg:col-span-9 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 lg:pl-12">
-            <motion.nav
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              aria-label="Company navigation"
-              className="col-span-2"
-            >
-              <h4 className="mb-6 text-xs font-semibold tracking-[0.2em] text-primary-300 uppercase">
-                Company
-              </h4>
-              <ul className="space-y-4 text-sm">
-                {NAV_LINKS.map((link) => (
-                  <FooterLink key={link.name} href={link.href}>
-                    {link.name}
-                  </FooterLink>
-                ))}
-              </ul>
-            </motion.nav>
+          <nav
+            aria-label={t("footer.section.explore")}
+            className="md:col-span-3 lg:col-span-3"
+          >
+            <h4 className="mb-5 text-[10px] font-semibold tracking-[0.3em] text-secondary-200 uppercase font-sans">
+              {t("footer.section.explore")}
+            </h4>
+            <ul className="space-y-3 text-sm">
+              {FOOTER_EXPLORE.map((link) => (
+                <FooterNavLink key={link.labelKey} href={link.href}>
+                  {t(link.labelKey)}
+                </FooterNavLink>
+              ))}
+            </ul>
+          </nav>
 
-            <motion.nav
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              aria-label="Services navigation"
-              className="col-span-4"
-            >
-              <h4 className="mb-6 text-xs font-semibold tracking-[0.2em] text-primary-300 uppercase">
-                Services
-              </h4>
-              <ul className="space-y-4 text-sm">
-                {SERVICE_LINKS.map((link) => (
-                  <FooterLink key={link.name} href={link.href}>
-                    {link.name}
-                  </FooterLink>
-                ))}
-              </ul>
-            </motion.nav>
+          <div className="md:col-span-4 lg:col-span-4">
+            <h4 className="mb-5 text-[10px] font-semibold tracking-[0.3em] text-secondary-200 uppercase font-sans">
+              {t("footer.section.connect")}
+            </h4>
 
-            <motion.nav
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              aria-label="Legal navigation"
-              className="col-span-2"
-            >
-              <h4 className="mb-6 text-xs font-semibold tracking-[0.2em] text-primary-300 uppercase">
-                Legal
-              </h4>
-              <ul className="space-y-4 text-sm">
-                {LEGAL_LINKS.map((link) => (
-                  <FooterLink
-                    key={link.name}
-                    href={link.href}
-                    external={link.href.startsWith("http")}
-                  >
-                    {link.name}
-                  </FooterLink>
-                ))}
-              </ul>
-            </motion.nav>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="col-span-4"
-            >
-              <h4 className="mb-6 text-xs font-semibold tracking-[0.2em] text-primary-300 uppercase">
-                Get in Touch
-              </h4>
+            <div className="space-y-3 mb-6">
+              <a
+                href={`tel:${CONTACT.phoneRaw}`}
+                aria-label={t("footer.aria.phone")}
+                className="group flex items-center gap-3 text-sm text-primary-300 transition-colors duration-300 hover:text-white"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-800/60 transition-all duration-300 group-hover:bg-primary-700/80">
+                  <Phone className="h-4 w-4" strokeWidth={1.6} />
+                </span>
+                <span className="relative overflow-hidden">
+                  <span className="block">{CONTACT.phone}</span>
+                  <span className="absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:origin-left group-hover:scale-x-100" />
+                </span>
+              </a>
 
-              <div className="space-y-4 mb-8">
-                <a
-                  href={`tel:${CONTACT.phoneRaw}`}
-                  className="group flex items-center gap-3 text-sm text-primary-400 transition-colors duration-300 hover:text-white"
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-800/50 transition-all duration-300 group-hover:bg-primary-700/80 group-hover:scale-110">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={1.5}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25z"
-                      />
-                    </svg>
-                  </span>
-                  <span className="relative overflow-hidden">
-                    <span className="block">{CONTACT.phone}</span>
-                    <span className="absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:origin-left group-hover:scale-x-100" />
-                  </span>
-                </a>
-                <a
-                  href={`mailto:${CONTACT.email}`}
-                  className="group flex items-center gap-3 text-sm text-primary-400 transition-colors duration-300 hover:text-white"
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-800/50 transition-all duration-300 group-hover:bg-primary-700/80 group-hover:scale-110">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={1.5}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                      />
-                    </svg>
-                  </span>
-                  <span className="relative overflow-hidden">
-                    <span className="block">{CONTACT.email}</span>
-                    <span className="absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:origin-left group-hover:scale-x-100" />
-                  </span>
-                </a>
-              </div>
+              <a
+                href={`mailto:${CONTACT.email}`}
+                aria-label={t("footer.aria.email")}
+                className="group flex items-center gap-3 text-sm text-primary-300 transition-colors duration-300 hover:text-white"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-800/60 transition-all duration-300 group-hover:bg-primary-700/80">
+                  <Mail className="h-4 w-4" strokeWidth={1.6} />
+                </span>
+                <span className="relative overflow-hidden">
+                  <span className="block">{CONTACT.email}</span>
+                  <span className="absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:origin-left group-hover:scale-x-100" />
+                </span>
+              </a>
 
+              <a
+                href={LINKS.scheduling}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 text-sm text-secondary-200 transition-colors duration-300 hover:text-white"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary-500/15 transition-all duration-300 group-hover:bg-secondary-500/30">
+                  <Calendar className="h-4 w-4" strokeWidth={1.6} />
+                </span>
+                <span className="relative overflow-hidden">
+                  <span className="block">{t("footer.cta.schedule")}</span>
+                  <span className="absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:origin-left group-hover:scale-x-100" />
+                </span>
+              </a>
+            </div>
+
+            <div>
+              <h5 className="mb-3 text-[10px] font-semibold tracking-[0.3em] text-primary-400 uppercase font-sans">
+                {t("footer.section.follow")}
+              </h5>
               <div className="flex items-center gap-3">
                 {SOCIAL_LINKS.map((social) => (
                   <a
@@ -259,64 +191,60 @@ export function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={social.name}
-                    className={`group/social relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-primary-800/60 bg-primary-900/40 text-primary-400 transition-all duration-500 ${socialBrandColors[social.name]}`}
+                    aria-label={`${t("footer.aria.follow_on")} ${social.name}`}
+                    className={cn(
+                      "group/social relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-primary-800/60 bg-primary-900/40 text-primary-300 transition-all duration-500 hover:text-white",
+                      socialBrandColors[social.name],
+                    )}
                   >
-                    <span
-                      className={`absolute inset-0 flex items-center justify-center`}
-                    >
-                      <span
-                        className={`h-0 w-0 rounded-full ${socialBrandBg[social.name]} opacity-20 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/social:size-30 group-hover/social:opacity-30`}
-                      />
-                    </span>
-                    <span className="relative z-10 flex h-4 w-4 items-center justify-center overflow-hidden">
-                      <span className="absolute transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/social:translate-y-[-150%] group-hover/social:opacity-0">
-                        {socialIcons[social.name]}
-                      </span>
-                      <span className="absolute translate-y-[150%] opacity-0 text-white transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/social:translate-y-0 group-hover/social:opacity-100">
-                        {socialIcons[social.name]}
-                      </span>
-                    </span>
+                    {socialIcons[social.name]}
                   </a>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </Container>
 
       <div className="border-t border-primary-800/50">
-        <Container className="flex flex-col items-center justify-between gap-6 py-8 md:flex-row">
-          <p className="text-xs text-primary-400">
-            © {currentYear} {CONTACT.companyName}. All rights reserved.
+        <Container className="flex flex-col items-center gap-4 py-7 lg:flex-row lg:justify-between">
+          <p className="text-xs text-primary-400 font-sans text-center lg:text-left">
+            © {currentYear} {CONTACT.companyName}. {t("footer.copyright")}
           </p>
 
-          <p className="text-center text-xs text-primary-400">
-            Unique Entity ID {CONTACT.entityId} / {CONTACT.registrationId}
+          <p className="hidden lg:block text-[11px] text-primary-500 font-sans">
+            {t("footer.entity")} {CONTACT.entityId}
           </p>
 
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="group flex items-center gap-2 text-xs font-medium text-primary-400 transition-colors duration-300 hover:text-white"
-            aria-label="Scroll back to top"
-          >
-            Back to top
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-primary-700 transition-all duration-300 group-hover:border-primary-500 group-hover:-translate-y-0.5">
-              <svg
-                className="h-3 w-3 rotate-180 transition-transform duration-300 group-hover:-translate-y-0.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </span>
-          </button>
+          <div className="flex items-center gap-5 flex-wrap justify-center">
+            {FOOTER_LEGAL.map((link) => {
+              const props = link.external
+                ? { target: "_blank" as const, rel: "noopener noreferrer" }
+                : {};
+              return (
+                <Link
+                  key={link.labelKey}
+                  href={link.href}
+                  {...props}
+                  className="text-xs text-primary-400 hover:text-white transition-colors duration-300 font-sans"
+                >
+                  {t(link.labelKey)}
+                </Link>
+              );
+            })}
+
+            <button
+              type="button"
+              onClick={scrollToTop}
+              aria-label={t("footer.aria.back_to_top")}
+              className="group flex items-center gap-2 text-xs font-medium text-primary-400 hover:text-white transition-colors duration-300 font-sans"
+            >
+              {t("footer.back_to_top")}
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-primary-700 transition-all duration-300 group-hover:border-secondary-500 group-hover:-translate-y-0.5">
+                <ArrowUp className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5" />
+              </span>
+            </button>
+          </div>
         </Container>
       </div>
     </footer>

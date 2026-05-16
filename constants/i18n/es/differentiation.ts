@@ -1,0 +1,20 @@
+export const differentiation = {
+  "differentiation.aria.section": "Cómo trabajo",
+  "differentiation.eyebrow": "Cómo Trabajo",
+  "differentiation.title.prefix": "Esto ",
+  "differentiation.title.highlight": "no es",
+  "differentiation.title.suffix": " consultoría tradicional",
+  "differentiation.intro":
+    "Mi enfoque combina estrategia, pensamiento estructurado y experiencias inmersivas como LEGO® Serious Play® para ayudarte a:",
+  "differentiation.lsp.label": "LEGO® Serious Play®",
+  "differentiation.outcomes.clarify.title": "Clarificar visión y dirección",
+  "differentiation.outcomes.decide.title": "Tomar mejores decisiones",
+  "differentiation.outcomes.align.title": "Alinear equipos",
+  "differentiation.outcomes.action.title": "Convertir ideas en acción",
+  "differentiation.closing.line1": "Esto no se trata de más información.",
+  "differentiation.closing.line2.prefix": "Se trata de ",
+  "differentiation.closing.line2.clarity": "claridad",
+  "differentiation.closing.line2.connector": "—y ",
+  "differentiation.closing.line2.execution": "ejecución",
+  "differentiation.closing.line2.suffix": ".",
+} as const;

@@ -1,211 +1,323 @@
 "use client";
 
-import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Headphones } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Container } from "@/components/ui/container";
+import { RevealText } from "@/components/ui/reveal-text";
+import {
+  BOOK,
+  type BookEdition,
+  type BookMedallion,
+} from "@/constants/content/book";
+import { useLocale } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import gsap from "gsap";
+import { ArrowRight, BookOpen, Headphones, X } from "lucide-react";
+import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+const Book3D = dynamic(
+  () => import("./book-3d").then((m) => ({ default: m.Book3D })),
+  { ssr: false, loading: () => null },
+);
 
-interface BookProps {
-  language: string;
-  title: string;
-  accent: string;
-  bg: string;
-  small?: string;
-}
-
-function BookCover({ language, title, accent, bg, small }: BookProps) {
-  return (
-    <div
-      className="relative w-full h-full rounded-lg shadow-2xl overflow-hidden ring-1 ring-white/10"
-      style={{ background: bg }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40" />
-      <div className="absolute top-0 bottom-0 left-3 w-px bg-white/20" />
-      <div className="absolute top-0 bottom-0 left-2 w-px bg-white/10" />
-      <div className="absolute inset-0 flex flex-col justify-between p-5 md:p-7">
-        <span
-          className="text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase"
-          style={{ color: accent }}
-        >
-          {language}
-        </span>
-        <div>
-          <h3 className="font-heading text-xl md:text-3xl font-semibold text-white leading-tight mb-2">
-            {title}
-          </h3>
-          <div className="h-px w-10 mb-3" style={{ backgroundColor: accent }} />
-          <p className="text-[10px] md:text-xs uppercase tracking-widest text-white/70">
-            J. V. Jiménez
-          </p>
-        </div>
-        {small && (
-          <p className="absolute bottom-4 right-5 text-[9px] uppercase tracking-widest text-white/40">
-            {small}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-}
+const MEDALLIONS: readonly BookMedallion[] = ["en", "es", "audio"] as const;
 
 export function BookShowcase() {
-  const containerRef = useRef<HTMLElement>(null);
-  const leftBookRef = useRef<HTMLDivElement>(null);
-  const centerBookRef = useRef<HTMLDivElement>(null);
-  const rightBookRef = useRef<HTMLDivElement>(null);
-  const copyRef = useRef<HTMLDivElement>(null);
+  const { locale, t } = useLocale();
+  const [active, setActive] = useState<BookMedallion>(locale);
+  const [excerptOpen, setExcerptOpen] = useState(false);
+  const audioBadgeRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
+  const bookEdition: BookEdition = active === "audio" ? locale : active;
+  const showAudioBadge = active === "audio";
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(leftBookRef.current,
-        { y: 40 },
-        {
-          y: -30,
-          ease: "none",
-          scrollTrigger: { trigger: containerRef.current, start: "top bottom", end: "bottom top", scrub: 1 },
-        },
-      );
-      gsap.fromTo(centerBookRef.current,
-        { y: 70 },
-        {
-          y: -50,
-          ease: "none",
-          scrollTrigger: { trigger: containerRef.current, start: "top bottom", end: "bottom top", scrub: 1 },
-        },
-      );
-      gsap.fromTo(rightBookRef.current,
-        { y: 20 },
-        {
-          y: -15,
-          ease: "none",
-          scrollTrigger: { trigger: containerRef.current, start: "top bottom", end: "bottom top", scrub: 1 },
-        },
-      );
-
-      gsap.to([leftBookRef.current, rightBookRef.current], {
-        y: "+=8",
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        stagger: 0.6,
-      });
-
-      gsap.from(copyRef.current?.children ?? [], {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.1,
+  // Audio badge fade in/out
+  useGSAP(
+    () => {
+      const el = audioBadgeRef.current;
+      if (!el) return;
+      gsap.to(el, {
+        opacity: showAudioBadge ? 1 : 0,
+        y: showAudioBadge ? 0 : 8,
+        duration: 0.45,
         ease: "power2.out",
-        scrollTrigger: { trigger: copyRef.current, start: "top 80%", once: true },
       });
-    });
-  }, { scope: containerRef });
+    },
+    { dependencies: [showAudioBadge] },
+  );
 
   return (
     <section
-      ref={containerRef}
       id="book"
-      className="relative py-24 md:py-32 overflow-hidden scroll-mt-24"
+      aria-label={t("book.aria.section")}
+      className="relative py-20 md:py-28 lg:py-32 overflow-hidden scroll-mt-24"
     >
       <Container className="relative z-10">
-        <div className="bg-primary-950 text-white rounded-[32px] md:rounded-[48px] p-8 md:p-16 lg:p-20 shadow-2xl shadow-primary-950/20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center overflow-hidden">
-          <div className="relative h-[500px] md:h-[580px] w-full flex justify-center items-center">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-md bg-secondary-500/20 blur-[100px] rounded-full pointer-events-none" />
-
+        <div className="grid items-center gap-12 md:gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16 xl:gap-20">
+          <div className="order-2 flex flex-col items-center gap-8 lg:order-1 lg:gap-10">
             <div
-              ref={leftBookRef}
-              className="absolute left-[2%] top-[18%] w-[36%] aspect-[2/3] z-10 -rotate-6 will-change-transform"
-            >
-              <BookCover
-                language="Español"
-                title="Vivir, Amar, Aprender"
-                accent="#dda742"
-                bg="linear-gradient(160deg, #4a5b4c 0%, #161e15 100%)"
-              />
-            </div>
-
-            <div
-              ref={centerBookRef}
-              className="absolute left-1/2 -translate-x-1/2 top-[6%] w-[44%] aspect-[2/3] z-30 will-change-transform"
-            >
-              <BookCover
-                language="English Edition"
-                title="Live. Love. Learn."
-                accent="#edd79a"
-                bg="linear-gradient(165deg, #090d08 0%, #4a5b4c 100%)"
-                small="A New Edition"
-              />
-            </div>
-
-            <div
-              ref={rightBookRef}
-              className="absolute right-[2%] top-[28%] w-[36%] aspect-square z-20 rotate-6 will-change-transform"
+              role="img"
+              aria-label={t("book.aria.canvas")}
+              className="relative h-[360px] w-full max-w-xl sm:h-[520px] md:h-[600px] lg:h-[640px]"
             >
               <div
-                className="relative w-full h-full rounded-2xl shadow-2xl overflow-hidden ring-1 ring-white/10"
-                style={{ background: "linear-gradient(140deg, #161e15 0%, #4a5b4c 100%)" }}
+                aria-hidden
+                className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,var(--color-secondary-200)_0%,transparent_62%)] opacity-[0.55] blur-[50px] mix-blend-multiply"
+              />
+
+              <div className="absolute inset-0">
+                <Book3D edition={bookEdition} />
+              </div>
+
+              <div
+                ref={audioBadgeRef}
+                aria-hidden={!showAudioBadge}
+                className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 pointer-events-none opacity-0"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                  <Headphones className="w-12 h-12 md:w-14 md:h-14 text-secondary-300 mb-3" />
-                  <span className="text-xs md:text-sm font-bold tracking-widest text-white">AUDIOBOOK</span>
-                  <span className="mt-2 text-[10px] uppercase tracking-widest text-white/60">
-                    Now Streaming
+                <div className="inline-flex items-center gap-2 rounded-full bg-primary-950/90 backdrop-blur-sm px-4 py-2 shadow-lg">
+                  <Headphones className="w-4 h-4 text-secondary-300" />
+                  <span className="text-xs sm:text-sm font-sans text-white tracking-wide">
+                    {t("book.audio.badge")}
                   </span>
                 </div>
               </div>
             </div>
+
+            <div
+              role="group"
+              aria-label={t("book.aria.section")}
+              className="flex items-center justify-center gap-5 sm:gap-8"
+            >
+              {MEDALLIONS.map((ed) => {
+                const isActive = active === ed;
+                const ariaKey =
+                  ed === "en"
+                    ? "book.aria.medallion.en"
+                    : ed === "es"
+                      ? "book.aria.medallion.es"
+                      : "book.aria.medallion.audio";
+                const labelKey =
+                  ed === "en"
+                    ? "book.medallion.en.label"
+                    : ed === "es"
+                      ? "book.medallion.es.label"
+                      : "book.medallion.audio.label";
+
+                return (
+                  <button
+                    key={ed}
+                    type="button"
+                    onClick={() => setActive(ed)}
+                    aria-pressed={isActive}
+                    aria-label={t(ariaKey)}
+                    className={cn(
+                      "group flex flex-col items-center gap-2 transition-transform duration-300",
+                      isActive ? "scale-110" : "opacity-75 hover:opacity-100 hover:scale-105",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "size-14 sm:size-16 rounded-full border-2 flex items-center justify-center font-heading font-medium text-sm sm:text-base tracking-[0.15em] transition-all duration-500",
+                        isActive
+                          ? "border-secondary-500 bg-secondary-100 text-primary-950 shadow-lg shadow-secondary-300/50"
+                          : "border-primary-400 bg-transparent text-primary-700 group-hover:border-secondary-500",
+                      )}
+                    >
+                      {ed === "audio" ? (
+                        <Headphones className="w-5 h-5" />
+                      ) : (
+                        ed.toUpperCase()
+                      )}
+                    </span>
+                    <span className="text-[10px] sm:text-xs tracking-[0.2em] uppercase text-primary-700 font-sans font-medium">
+                      {t(labelKey)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div ref={copyRef} className="flex flex-col justify-center">
-            <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-primary-700 bg-primary-900/50 w-fit">
-              <span className="text-xs font-semibold tracking-widest text-secondary-300 uppercase">
-                The New Book
-              </span>
+          <div className="order-1 flex flex-col items-center text-center lg:order-2 lg:items-start lg:text-left">
+            <span className="font-heading italic text-xs sm:text-sm tracking-[0.3em] sm:tracking-[0.35em] uppercase text-primary-700/80">
+              {t("book.eyebrow")}
+            </span>
+
+            <RevealText
+              as="h2"
+              splitBy="word"
+              stagger={0.08}
+              duration={0.85}
+              className="mt-6 font-heading text-4xl leading-[1.02] text-primary-950 sm:text-5xl md:text-6xl"
+            >
+              {t("book.heading")}
+            </RevealText>
+
+            <div className="mt-6 sm:mt-8 flex max-w-3xl flex-col items-center gap-1 lg:items-start">
+              <RevealText
+                as="p"
+                splitBy="word"
+                stagger={0.025}
+                duration={0.75}
+                className="font-heading text-lg sm:text-2xl md:text-3xl text-primary-900 leading-snug"
+              >
+                {t("book.invitation.line1")}
+              </RevealText>
+              <RevealText
+                as="p"
+                splitBy="word"
+                stagger={0.03}
+                duration={0.75}
+                className="font-heading text-lg sm:text-2xl md:text-3xl text-primary-900 leading-snug"
+              >
+                {t("book.invitation.line2")}
+              </RevealText>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold mb-6 leading-tight">
-              An invitation to think deeper, live intentionally, and build a life that truly matters.
-            </h2>
-            <div className="w-16 h-1 bg-secondary-500 mb-8" />
-            <p className="text-xl text-primary-200 font-medium mb-3">This is not theory.</p>
-            <p className="text-lg text-primary-300 leading-relaxed mb-10 max-w-lg">
-              It’s reflection, structure, and transformation. Discover the framework to bridge the gap between where you are and the life you are actively becoming.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4">
+
+            <div className="mt-6 sm:mt-8 flex flex-col items-center gap-1 lg:items-start">
+              <p className="font-heading italic text-base sm:text-lg md:text-xl text-secondary-700">
+                {t("book.tagline.line1")}
+              </p>
+              <p className="font-heading text-sm sm:text-base md:text-lg text-primary-700">
+                {t("book.tagline.line2")}
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row w-full sm:w-auto">
               <Button
-                href="https://www.amazon.com"
+                href={BOOK.amazonUrl}
                 size="lg"
-                className="w-full sm:w-auto text-base px-8 h-14 rounded-full bg-secondary-500 text-white hover:bg-secondary-600"
+                variant="secondary"
                 icon={<BookOpen className="w-5 h-5" />}
                 iconPosition="start"
               >
-                Buy the Book on Amazon
+                {t("book.cta.buy")}
               </Button>
               <Button
-                href="#"
-                variant="outline"
                 size="lg"
-                className="w-full sm:w-auto text-base px-8 h-14 rounded-full border-2 border-primary-700 bg-transparent hover:bg-primary-800 text-white"
-                icon={<ArrowRight className="w-4 h-4" />}
+                variant="outline"
+                icon={<ArrowRight className="w-5 h-5" />}
                 iconPosition="end"
+                onClick={() => setExcerptOpen(true)}
               >
-                Read an Excerpt
+                {t("book.cta.excerpt")}
               </Button>
             </div>
           </div>
         </div>
       </Container>
+
+      {excerptOpen && <ExcerptOverlay onClose={() => setExcerptOpen(false)} />}
     </section>
   );
 }
 
+function ExcerptOverlay({ onClose }: { onClose: () => void }) {
+  const { t } = useLocale();
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        overlayRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: "power2.out" },
+      );
+      tl.fromTo(
+        sheetRef.current,
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+        "-=0.15",
+      );
+    },
+    { scope: overlayRef },
+  );
+
+  useEffect(() => {
+    const previousActive = document.activeElement as HTMLElement | null;
+    const sheet = sheetRef.current;
+
+    const focusableSelector =
+      'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const getFocusable = () =>
+      sheet
+        ? Array.from(sheet.querySelectorAll<HTMLElement>(focusableSelector)).filter(
+            (el) => !el.hasAttribute("disabled"),
+          )
+        : [];
+
+    const focusables = getFocusable();
+    focusables[0]?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !sheet) return;
+      const current = getFocusable();
+      if (!current.length) {
+        e.preventDefault();
+        return;
+      }
+      const first = current[0];
+      const last = current[current.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey && (active === first || !sheet.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || !sheet.contains(active))) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      previousActive?.focus?.();
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="excerpt-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-primary-950/70 backdrop-blur-sm p-4 sm:p-8 opacity-0"
+    >
+      <div
+        ref={sheetRef}
+        className="relative bg-secondary-50 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl p-8 sm:p-12 shadow-2xl"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label={t("book.excerpt.close")}
+          className="absolute top-4 right-4 p-2 text-primary-700 hover:text-primary-900 transition-colors rounded-full hover:bg-primary-100"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <h3
+          id="excerpt-title"
+          className="font-heading italic text-2xl sm:text-3xl text-primary-700 mb-8 tracking-wide"
+        >
+          {t("book.excerpt.title")}
+        </h3>
+        <div className="space-y-5 sm:space-y-6 font-heading text-lg sm:text-xl leading-relaxed text-primary-900">
+          <p>{t("book.excerpt.body1")}</p>
+          <p>{t("book.excerpt.body2")}</p>
+          <p>{t("book.excerpt.body3")}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
