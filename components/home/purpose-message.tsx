@@ -194,7 +194,7 @@ function PurposeInsight({ children }: { children: string }) {
     >
       <span
         aria-hidden
-        className="absolute left-[-46px] bg-white top-10 hidden size-3 rounded-full border-2 border-secondary-500 md:block"
+        className="absolute -left-11.5 bg-white top-10 hidden size-3 rounded-full border-2 border-secondary-500 md:block"
       />
       <h2 className="max-w-4xl font-heading text-3xl leading-[1.08] text-primary-950 sm:text-4xl md:text-5xl">
         {children}
@@ -214,7 +214,7 @@ function PurposeClosing({
     <div data-purpose-reveal className="relative max-w-3xl">
       <span
         aria-hidden
-        className="absolute left-[-46px] bg-white top-3 hidden size-3 rounded-full border-2 border-primary-400 md:block"
+        className="absolute -left-11.5 bg-white top-3 hidden size-3 rounded-full border-2 border-primary-400 md:block"
       />
       <p className="font-sans text-sm font-medium leading-relaxed text-primary-700/90 sm:text-base md:text-lg">
         {prefix}

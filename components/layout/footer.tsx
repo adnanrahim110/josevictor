@@ -1,9 +1,9 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
+import { CONTACT, SOCIAL_LINKS } from "@/constants";
 import { LINKS } from "@/constants/content/links";
 import { FOOTER_EXPLORE, FOOTER_LEGAL } from "@/constants/content/nav";
-import { CONTACT, SOCIAL_LINKS } from "@/constants";
 import { useLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { useLenis } from "lenis/react";
@@ -98,7 +98,7 @@ export function Footer() {
     <footer className="relative overflow-hidden bg-primary-950 text-primary-50">
       <div
         aria-hidden
-        className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-2/3 bg-gradient-to-r from-transparent via-secondary-500/40 to-transparent"
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-2/3 bg-linear-to-r from-transparent via-secondary-500/40 to-transparent"
       />
 
       <Container className="pt-20 pb-12 lg:pt-24 lg:pb-16">

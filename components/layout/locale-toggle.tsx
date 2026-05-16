@@ -17,16 +17,16 @@ export function LocaleToggle({
       role="group"
       aria-label={t("common.locale.switch")}
       className={cn(
-        "relative inline-flex items-center rounded-full p-[3px] transition-colors duration-500",
-        dark ? "bg-white/[0.08]" : "bg-primary-200/50",
+        "relative inline-flex items-center rounded-full p-0.75 transition-colors duration-500",
+        dark ? "bg-white/8" : "bg-primary-200/50",
         className,
       )}
     >
       <div
         aria-hidden
         className={cn(
-          "absolute top-[3px] bottom-[3px] w-[calc(50%-3px)] rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-sm",
-          locale === "en" ? "left-[3px]" : "left-[calc(50%)]",
+          "absolute top-0.75 bottom-0.75 w-[calc(50%-3px)] rounded-full transition-all duration-500 ease-ceremonial shadow-sm",
+          locale === "en" ? "left-0.75" : "left-[calc(50%)]",
           dark ? "bg-secondary-500" : "bg-primary-800",
         )}
       />
