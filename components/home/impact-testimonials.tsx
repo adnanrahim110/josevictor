@@ -75,7 +75,6 @@ export function ImpactTestimonials() {
       );
       if (reduce) {
         if (eyebrowRef.current) gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
-        if (headingRef.current) gsap.set(headingRef.current, { opacity: 1, y: 0 });
         if (cards.length > 0) gsap.set(cards, { opacity: 1, y: 0, scale: 1 });
         return;
       }
