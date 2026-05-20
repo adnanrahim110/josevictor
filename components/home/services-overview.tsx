@@ -52,7 +52,7 @@ export function ServicesOverview() {
       const cards = gridRef.current?.querySelectorAll<HTMLElement>(".service-card");
 
       if (reduce) {
-        if (cards) gsap.set(cards, { opacity: 1, scale: 1, y: 0 });
+        if (cards && cards.length > 0) gsap.set(cards, { opacity: 1, scale: 1, y: 0 });
         if (eyebrowRef.current) gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
         if (headingRef.current) gsap.set(headingRef.current, { opacity: 1, y: 0 });
         if (ctaRef.current) gsap.set(ctaRef.current, { opacity: 1, y: 0 });
@@ -60,6 +60,8 @@ export function ServicesOverview() {
       }
 
       const triggers: ScrollTrigger[] = [];
+
+      if (cards && cards.length > 0) gsap.set(cards, { opacity: 0, scale: 0.95, y: 32 });
 
       [eyebrowRef.current, headingRef.current].forEach((el) => {
         if (!el) return;
@@ -74,20 +76,15 @@ export function ServicesOverview() {
         if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
       });
 
-      if (cards && cards.length) {
-        gsap.set(cards, { opacity: 0, scale: 0.94, y: 28 });
+      if (cards && cards.length > 0) {
         const tilesTween = gsap.to(cards, {
           opacity: 1,
           scale: 1,
           y: 0,
-          duration: 0.7,
-          stagger: 0.2,
-          ease: "back.out(1.4)",
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: "top 78%",
-            once: true,
-          },
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: gridRef.current, start: "top 80%", once: true },
         });
         if (tilesTween.scrollTrigger) triggers.push(tilesTween.scrollTrigger);
       }
@@ -186,24 +183,25 @@ function ServicesRootConnectors() {
         path.style.strokeDashoffset = reduce ? "0" : `${length}`;
       });
 
-      if (reduce) return;
+      const triggers: ScrollTrigger[] = [];
 
-      const tween = gsap.to(paths, {
-        strokeDashoffset: 0,
-        duration: 1,
-        stagger: 0.08,
-        ease: "none",
-        scrollTrigger: {
-          trigger: root,
-          start: "top 90%",
-          end: "top 42%",
-          scrub: 1.2,
-        },
-      });
+      if (!reduce && paths.length > 0) {
+        const tween = gsap.to(paths, {
+          strokeDashoffset: 0,
+          duration: 2.5,
+          stagger: 0.1,
+          ease: "power2.inOut",
+          scrollTrigger: {
+            trigger: root,
+            start: "top 65%",
+            once: true,
+          },
+        });
+        if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
+      }
 
       return () => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
+        triggers.forEach((trigger) => trigger.kill());
       };
     },
     { scope: rootRef, dependencies: [reduce] },

@@ -218,7 +218,7 @@ function createOrganicMaterial({
   if (map) map.repeat.set(repeat[0], repeat[1]);
   if (bumpMap) bumpMap.repeat.set(repeat[0], repeat[1]);
 
-  return new THREE.MeshStandardMaterial({
+  const mProps: any = {
     color: base,
     map: map ?? undefined,
     bumpMap: bumpMap ?? undefined,
@@ -226,9 +226,14 @@ function createOrganicMaterial({
     roughness,
     metalness,
     side,
-    emissive,
-    emissiveIntensity,
-  });
+  };
+  
+  if (emissive !== undefined) {
+    mProps.emissive = emissive;
+    mProps.emissiveIntensity = emissiveIntensity;
+  }
+
+  return new THREE.MeshStandardMaterial(mProps);
 }
 
 const STEM_CURVE = createPath([
@@ -1516,7 +1521,7 @@ export function RealisticPlantBackground() {
       aria-hidden
       className="pointer-events-none absolute left-1/2 top-0 z-0 h-[200vh] w-[min(900px,90vw)] -translate-x-1/2"
     >
-      <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }} shadows>
+      <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }} shadows={{ type: THREE.PCFShadowMap }}>
         <OrthographicCamera makeDefault position={[0, 0, 12]} zoom={88} />
         <PlantScene
           mountRef={mountProgressRef}

@@ -135,7 +135,7 @@ export function Header() {
           className={cn(
             "mx-auto flex items-center justify-between gap-4 transition-all border duration-700 ease-ceremonial",
             isScrolled
-              ? "max-w-4xl bg-primary-950/90 backdrop-blur-2xl rounded-full border-primary-800/30 shadow-[0_8px_32px_rgba(9,13,8,0.25)] px-5 py-2"
+              ? "max-w-5xl w-fit bg-primary-950/90 backdrop-blur-2xl rounded-full border-primary-800/30 shadow-[0_8px_32px_rgba(9,13,8,0.25)] px-5 py-2"
               : "max-w-[90%] px-4 sm:px-6 lg:px-8 py-1 border-transparent",
           )}
         >

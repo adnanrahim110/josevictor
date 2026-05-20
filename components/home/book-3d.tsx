@@ -328,7 +328,7 @@ export function Book3D({ edition }: Book3DProps) {
   const reduce = usePrefersReducedMotion();
   return (
     <Canvas
-      shadows
+      shadows={{ type: THREE.PCFShadowMap }}
       camera={{ position: [0, 0.3, 5.5], fov: 28 }}
       dpr={[1, 2]}
       gl={{

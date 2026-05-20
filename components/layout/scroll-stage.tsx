@@ -19,26 +19,30 @@ export function ScrollStage() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.to(orbARef.current, {
-          yPercent: 80,
-          ease: "none",
-          scrollTrigger: {
-            trigger: document.documentElement,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 2,
-          },
-        });
-        gsap.to(orbBRef.current, {
-          yPercent: 110,
-          ease: "none",
-          scrollTrigger: {
-            trigger: document.documentElement,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 2,
-          },
-        });
+        if (orbARef.current) {
+          gsap.to(orbARef.current, {
+            yPercent: 80,
+            ease: "none",
+            scrollTrigger: {
+              trigger: document.documentElement,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 2,
+            },
+          });
+        }
+        if (orbBRef.current) {
+          gsap.to(orbBRef.current, {
+            yPercent: 110,
+            ease: "none",
+            scrollTrigger: {
+              trigger: document.documentElement,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 2,
+            },
+          });
+        }
       });
     },
     { scope: stageRef },

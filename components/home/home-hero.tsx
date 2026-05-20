@@ -32,57 +32,27 @@ export function HomeHero() {
 
       if (reduce) {
         gsap.set(
-          [eyebrow, ...words, tagline, desc, ctas, scrollHint, divider],
+          [eyebrow, ...Array.from(words), tagline, desc, ctas, divider].filter(Boolean),
           { opacity: 1, y: 0, scale: 1, scaleX: 1 },
         );
         return;
       }
 
-      gsap.set(eyebrow, { opacity: 0, y: 15 });
-      gsap.set(words, { opacity: 0, y: 80, rotateX: 30 });
-      gsap.set(tagline, { opacity: 0, y: 20 });
-      gsap.set(desc, { opacity: 0, y: 20 });
-      gsap.set(ctas, { opacity: 0, y: 20 });
-      gsap.set(scrollHint, { opacity: 0, y: -10 });
+      if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: 15 });
+      if (words.length) gsap.set(words, { opacity: 0, y: 80, rotateX: 30 });
+      if (tagline) gsap.set(tagline, { opacity: 0, y: 20 });
+      if (desc) gsap.set(desc, { opacity: 0, y: 20 });
+      if (ctas) gsap.set(ctas, { opacity: 0, y: 20 });
       if (divider) gsap.set(divider, { scaleX: 0, transformOrigin: "center" });
 
       const tl = gsap.timeline();
 
-      tl.to(
-        eyebrow,
-        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
-        0.4,
-      );
-
-      tl.to(
-        words,
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 1.2,
-          stagger: 0.15,
-          ease: "power3.out",
-        },
-        0.6,
-      );
-
-      if (divider) {
-        tl.to(divider, { scaleX: 1, duration: 1.2, ease: "power3.inOut" }, 1.4);
-      }
-
-      tl.to(
-        tagline,
-        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
-        1.6,
-      );
-      tl.to(desc, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 1.9);
-      tl.to(ctas, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 2.2);
-      tl.to(
-        scrollHint,
-        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
-        2.6,
-      );
+      if (eyebrow) tl.to(eyebrow, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 0.4);
+      if (words.length) tl.to(words, { opacity: 1, y: 0, rotateX: 0, duration: 1.2, stagger: 0.15, ease: "power3.out" }, 0.6);
+      if (divider) tl.to(divider, { scaleX: 1, duration: 1.2, ease: "power3.inOut" }, 1.4);
+      if (tagline) tl.to(tagline, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 1.6);
+      if (desc) tl.to(desc, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 1.9);
+      if (ctas) tl.to(ctas, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 2.2);
 
       if (scrollLine) {
         gsap.to(scrollLine, {

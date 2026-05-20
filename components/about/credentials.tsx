@@ -32,7 +32,7 @@ export function Credentials() {
     {
       icon: <FileBadge className="w-6 h-6" />,
       title: "Federal Certifications",
-      subtitle: "Grants Management Certificate Program (GMCP)",
+      subtitle: "Federal Grants Management Certification (GMCP-Fed)",
       color: "bg-white text-primary-950 border-primary-100",
       iconColor: "text-primary-600 bg-primary-50",
     },
@@ -55,7 +55,7 @@ export function Credentials() {
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary-500" />
-                Public Events Producer (#1207-05) – PR
+                Six Sigma Black Belt Certification
               </li>
             </ul>
           </div>

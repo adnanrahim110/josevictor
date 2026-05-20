@@ -2,6 +2,9 @@ import { AboutHero } from "@/components/about/about-hero";
 import { Credentials } from "@/components/about/credentials";
 import { ExperienceTimeline } from "@/components/about/experience-timeline";
 import { Philosophy } from "@/components/about/philosophy";
+import { MissionVision } from "@/components/team/mission-vision";
+import { OurApproach } from "@/components/team/our-approach";
+import { InAssociation } from "@/components/team/in-association";
 import { GlobalContact } from "@/components/layout/global-contact";
 import { Metadata } from "next";
 
@@ -18,6 +21,9 @@ export default function AboutPage() {
       <Philosophy />
       <Credentials />
       <ExperienceTimeline />
+      <MissionVision />
+      <OurApproach />
+      <InAssociation />
       <GlobalContact />
     </main>
   );

@@ -127,6 +127,7 @@ function BlogRow({ post, index }: { post: any; index: number }) {
             src={post.image}
             alt={post.title}
             fill
+            sizes="112px"
             className="object-cover"
           />
         </motion.div>
@@ -162,6 +163,7 @@ export function BlogGrid() {
                 src={featuredPost.image}
                 alt={featuredPost.title}
                 fill
+                sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
               />
             </div>

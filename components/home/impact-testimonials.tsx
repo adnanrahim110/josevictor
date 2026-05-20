@@ -70,15 +70,17 @@ export function ImpactTestimonials() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const cards =
-        cardsRef.current?.querySelectorAll<HTMLElement>(".testimonial-card");
-
+      const cards = Array.from(
+        cardsRef.current?.querySelectorAll<HTMLElement>(".testimonial-card") || [],
+      );
       if (reduce) {
-        if (eyebrowRef.current)
-          gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
-        if (cards) gsap.set(cards, { opacity: 1, y: 0, scale: 1 });
+        if (eyebrowRef.current) gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
+        if (headingRef.current) gsap.set(headingRef.current, { opacity: 1, y: 0 });
+        if (cards.length > 0) gsap.set(cards, { opacity: 1, y: 0, scale: 1 });
         return;
       }
+
+      if (cards.length > 0) gsap.set(cards, { opacity: 0, y: 40, scale: 0.95 });
 
       const triggers: ScrollTrigger[] = [];
 
@@ -98,20 +100,15 @@ export function ImpactTestimonials() {
         if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
       }
 
-      if (cards && cards.length) {
-        gsap.set(cards, { opacity: 0, y: 32, scale: 0.96 });
+      if (cards.length > 0) {
         const tween = gsap.to(cards, {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.75,
-          stagger: 0.18,
+          duration: 0.8,
+          stagger: 0.15,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 80%",
-            once: true,
-          },
+          scrollTrigger: { trigger: cardsRef.current, start: "top 75%", once: true },
         });
         if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
       }

@@ -40,33 +40,34 @@ export function PurposeMessage() {
       }
 
       if (reduce) {
-        gsap.set(revealItems, { opacity: 1, y: 0 });
+        if (revealItems.length > 0) gsap.set(revealItems, { opacity: 1, y: 0 });
         if (thread) gsap.set(thread, { scaleY: 1 });
         if (underline) underline.style.strokeDashoffset = "0";
         return;
       }
 
-      gsap.set(revealItems, { opacity: 0, y: 28 });
+      if (revealItems.length > 0) gsap.set(revealItems, { opacity: 0, y: 28 });
       if (thread) {
         gsap.set(thread, { scaleY: 0, transformOrigin: "top center" });
       }
 
       const triggers: ScrollTrigger[] = [];
 
-      const revealTween = gsap.to(revealItems, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.14,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 72%",
-          once: true,
-        },
-      });
-
-      if (revealTween.scrollTrigger) triggers.push(revealTween.scrollTrigger);
+      if (revealItems.length > 0) {
+        const revealTween = gsap.to(revealItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.14,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 72%",
+            once: true,
+          },
+        });
+        if (revealTween.scrollTrigger) triggers.push(revealTween.scrollTrigger);
+      }
 
       if (thread) {
         const threadTween = gsap.to(thread, {

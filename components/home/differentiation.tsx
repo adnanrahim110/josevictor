@@ -106,7 +106,7 @@ export function Differentiation() {
       });
 
       const tiles = gridRef.current?.querySelectorAll<HTMLElement>(".tile");
-      if (tiles && tiles.length) {
+      if (tiles && tiles.length > 0) {
         gsap.set(tiles, { opacity: 0, scale: 0.7, y: 32 });
         const tilesTween = gsap.to(tiles, {
           opacity: 1,

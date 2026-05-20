@@ -17,6 +17,11 @@ const ServicesOverview = dynamic(() =>
     default: m.ServicesOverview,
   })),
 );
+const ServicesCatalog = dynamic(() =>
+  import("@/components/home/services-catalog").then((m) => ({
+    default: m.ServicesCatalog,
+  })),
+);
 const ImpactTestimonials = dynamic(() =>
   import("@/components/home/impact-testimonials").then((m) => ({
     default: m.ImpactTestimonials,
@@ -47,6 +52,7 @@ export default function Home() {
       <BookShowcase />
       <Differentiation />
       <ServicesOverview />
+      <ServicesCatalog />
       <ImpactTestimonials />
       <AboutJove />
       <FinalCta />

@@ -41,41 +41,39 @@ export function FinalCta() {
       const cleanups: (() => void)[] = [];
 
       if (reduce) {
-        gsap.set(revealItems, { opacity: 1, y: 0 });
-        gsap.set(petals, { opacity: 1, y: 0, rotate: 0, scale: 1 });
+        if (revealItems.length > 0) gsap.set(revealItems, { opacity: 1, y: 0 });
+        if (petals.length > 0) gsap.set(petals, { opacity: 1, y: 0, rotate: 0, scale: 1 });
         return;
       }
 
-      gsap.set(revealItems, { opacity: 0, y: 28 });
-      gsap.set(petals, { opacity: 0, y: 28, rotate: -3, scale: 0.96 });
+      if (revealItems.length > 0) gsap.set(revealItems, { opacity: 0, y: 28 });
+      if (petals.length > 0) gsap.set(petals, { opacity: 0, y: 28, rotate: -3, scale: 0.96 });
 
-      const revealTween = gsap.to(revealItems, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 72%",
-          once: true,
-        },
-      });
+      let revealTween: gsap.core.Tween | null = null;
+      if (revealItems.length > 0) {
+        revealTween = gsap.to(revealItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: { trigger: section, start: "top 72%", once: true },
+        });
+      }
 
-      const petalTween = gsap.to(petals, {
-        opacity: 1,
-        y: 0,
-        rotate: 0,
-        scale: 1,
-        duration: 1,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 78%",
-          once: true,
-        },
-      });
+      let petalTween: gsap.core.Tween | null = null;
+      if (petals.length > 0) {
+        petalTween = gsap.to(petals, {
+          opacity: 1,
+          y: 0,
+          rotate: 0,
+          scale: 1,
+          duration: 1,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: { trigger: section, start: "top 78%", once: true },
+        });
+      }
 
       const setupMagnetic = (
         wrapper: HTMLDivElement | null,
@@ -119,10 +117,14 @@ export function FinalCta() {
       }
 
       return () => {
-        revealTween.scrollTrigger?.kill();
-        revealTween.kill();
-        petalTween.scrollTrigger?.kill();
-        petalTween.kill();
+        if (revealTween) {
+          revealTween.scrollTrigger?.kill();
+          revealTween.kill();
+        }
+        if (petalTween) {
+          petalTween.scrollTrigger?.kill();
+          petalTween.kill();
+        }
         cleanups.forEach((fn) => fn());
       };
     },
