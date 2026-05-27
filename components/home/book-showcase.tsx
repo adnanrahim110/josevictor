@@ -12,7 +12,7 @@ import { useLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ArrowRight, BookOpen, Headphones, X } from "lucide-react";
+import { ArrowRight, BookOpen, Headphones } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
@@ -26,7 +26,6 @@ const MEDALLIONS: readonly BookMedallion[] = ["en", "es", "audio"] as const;
 export function BookShowcase() {
   const { locale, t } = useLocale();
   const [active, setActive] = useState<BookMedallion>(locale);
-  const [excerptOpen, setExcerptOpen] = useState(false);
   const audioBadgeRef = useRef<HTMLDivElement>(null);
 
   const bookEdition: BookEdition = active === "audio" ? locale : active;
@@ -195,11 +194,11 @@ export function BookShowcase() {
                 {t("book.cta.buy")}
               </Button>
               <Button
+                href="/book"
                 size="lg"
                 variant="outline"
                 icon={<ArrowRight className="w-5 h-5" />}
                 iconPosition="end"
-                onClick={() => setExcerptOpen(true)}
               >
                 {t("book.cta.excerpt")}
               </Button>
@@ -207,117 +206,6 @@ export function BookShowcase() {
           </div>
         </div>
       </Container>
-
-      {excerptOpen && <ExcerptOverlay onClose={() => setExcerptOpen(false)} />}
     </section>
-  );
-}
-
-function ExcerptOverlay({ onClose }: { onClose: () => void }) {
-  const { t } = useLocale();
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const sheetRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const tl = gsap.timeline();
-      tl.fromTo(
-        overlayRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.3, ease: "power2.out" },
-      );
-      tl.fromTo(
-        sheetRef.current,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-        "-=0.15",
-      );
-    },
-    { scope: overlayRef },
-  );
-
-  useEffect(() => {
-    const previousActive = document.activeElement as HTMLElement | null;
-    const sheet = sheetRef.current;
-
-    const focusableSelector =
-      'button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    const getFocusable = () =>
-      sheet
-        ? Array.from(sheet.querySelectorAll<HTMLElement>(focusableSelector)).filter(
-            (el) => !el.hasAttribute("disabled"),
-          )
-        : [];
-
-    const focusables = getFocusable();
-    focusables[0]?.focus();
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-        return;
-      }
-      if (e.key !== "Tab" || !sheet) return;
-      const current = getFocusable();
-      if (!current.length) {
-        e.preventDefault();
-        return;
-      }
-      const first = current[0];
-      const last = current[current.length - 1];
-      const active = document.activeElement as HTMLElement | null;
-
-      if (e.shiftKey && (active === first || !sheet.contains(active))) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && (active === last || !sheet.contains(active))) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      previousActive?.focus?.();
-    };
-  }, [onClose]);
-
-  return (
-    <div
-      ref={overlayRef}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="excerpt-title"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-primary-950/70 backdrop-blur-sm p-4 sm:p-8 opacity-0"
-    >
-      <div
-        ref={sheetRef}
-        className="relative bg-secondary-50 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl p-8 sm:p-12 shadow-2xl"
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={t("book.excerpt.close")}
-          className="absolute top-4 right-4 p-2 text-primary-700 hover:text-primary-900 transition-colors rounded-full hover:bg-primary-100"
-        >
-          <X className="w-5 h-5" />
-        </button>
-        <h3
-          id="excerpt-title"
-          className="font-heading italic text-2xl sm:text-3xl text-primary-700 mb-8 tracking-wide"
-        >
-          {t("book.excerpt.title")}
-        </h3>
-        <div className="space-y-5 sm:space-y-6 font-heading text-lg sm:text-xl leading-relaxed text-primary-900">
-          <p>{t("book.excerpt.body1")}</p>
-          <p>{t("book.excerpt.body2")}</p>
-          <p>{t("book.excerpt.body3")}</p>
-        </div>
-      </div>
-    </div>
   );
 }

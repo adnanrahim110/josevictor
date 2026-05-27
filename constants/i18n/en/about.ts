@@ -12,4 +12,16 @@ export const about = {
   "about.work":
     "I help individuals and organizations stop guessing and start growing, by planting the right questions, tending to the right systems, and harvesting what actually matters.",
   "about.signature.caption": "José Víctor Jiménez",
+  "about.credentials.title": "Education & Credentials",
+  "about.credentials.description": "A solid foundation of academic excellence and professional certifications ensuring the highest standards of strategic and clinical support.",
+  "about.credentials.bullet1": "Bachelor’s Degree in Psychology",
+  "about.credentials.bullet2": "Six Sigma Black Belt Certification",
+  "about.credentials.card1.title": "Doctorate in Business Administration (ABD)",
+  "about.credentials.card1.subtitle": "Dissertation in progress",
+  "about.credentials.card2.title": "Master’s Degree",
+  "about.credentials.card2.subtitle": "Clinical Social Work (MSW)",
+  "about.credentials.card3.title": "Licensed Clinical Social Worker",
+  "about.credentials.card3.subtitle": "License #16384 – Puerto Rico",
+  "about.credentials.card4.title": "Federal Certifications",
+  "about.credentials.card4.subtitle": "Federal Grants Management Certification (GMCP-Fed)",
 } as const;

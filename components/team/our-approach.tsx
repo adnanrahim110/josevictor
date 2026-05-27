@@ -64,10 +64,7 @@ export function OurApproach() {
                 {t("aboutPage.approach.eyebrow")}
               </span>
               <Title className="text-4xl lg:text-5xl mb-8 text-primary-950">
-                {t("aboutPage.approach.heading")}
-                <span className="block text-secondary-600 italic">
-                  {t("aboutPage.approach.subheading")}
-                </span>
+                {t("aboutPage.approach.subheading")}
               </Title>
               <p className="text-lg text-primary-600 leading-relaxed mb-8">
                 {t("aboutPage.approach.body")}

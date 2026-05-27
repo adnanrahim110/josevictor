@@ -1,5 +1,7 @@
 "use client";
 
+// Need to update imports to include usePathname
+import { usePathname } from "next/navigation";
 import { LocaleToggle } from "@/components/layout/locale-toggle";
 import { Button } from "@/components/ui/button";
 import { LINKS } from "@/constants/content/links";
@@ -13,6 +15,7 @@ import * as React from "react";
 
 export function Header() {
   const { t } = useLocale();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [hovered, setHovered] = React.useState<number | null>(null);
@@ -172,7 +175,10 @@ export function Header() {
               )}
               style={{ willChange: "transform, width, opacity" }}
             />
-            {HEADER_NAV.map((link, i) => (
+            {HEADER_NAV.map((link, i) => {
+              const isActive = pathname === link.href || (link.href !== '/' && !link.href.startsWith('/#') && pathname.startsWith(link.href));
+              
+              return (
               <Link
                 key={link.labelKey}
                 ref={(el) => {
@@ -183,8 +189,8 @@ export function Header() {
                 className={cn(
                   "relative px-5 py-2.5 font-sans font-medium transition-colors duration-300",
                   isScrolled
-                    ? "text-[15px] text-primary-300 hover:text-white"
-                    : "text-base text-primary-700 hover:text-primary-950",
+                    ? (isActive ? "text-[15px] text-white" : "text-[15px] text-primary-300 hover:text-white")
+                    : (isActive ? "text-base text-primary-950" : "text-base text-primary-700 hover:text-primary-950"),
                 )}
               >
                 <span className="relative flex items-center gap-1.5">
@@ -192,7 +198,7 @@ export function Header() {
                     className={cn(
                       "size-1 rounded-full transition-all duration-300",
                       isScrolled ? "bg-secondary-400" : "bg-secondary-600",
-                      hovered === i
+                      hovered === i || (hovered === null && isActive)
                         ? "opacity-100 scale-100"
                         : "opacity-0 scale-0",
                     )}
@@ -200,7 +206,7 @@ export function Header() {
                   {t(link.labelKey)}
                 </span>
               </Link>
-            ))}
+            )})}
           </nav>
 
           <div className="hidden md:flex items-center gap-3 shrink-0">

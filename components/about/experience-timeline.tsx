@@ -59,13 +59,13 @@ export function ExperienceTimeline() {
       className="relative h-[260vh] bg-primary-50"
     >
       <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-24 pb-12">
-        <Container className="mb-12 shrink-0">
+        <Container className="mb-12 shrink-0 lg:px-2">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6">
             <div>
               <span className="text-sm font-semibold tracking-[0.2em] text-primary-500 uppercase mb-4 block">
                 {t("aboutPage.credentials.heading")}
               </span>
-              <Title className="max-w-xl text-5xl">
+              <Title className="max-w-3xl text-5xl">
                 {t("aboutPage.credentials.heading")}
               </Title>
             </div>

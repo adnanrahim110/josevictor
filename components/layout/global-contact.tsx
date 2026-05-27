@@ -108,16 +108,8 @@ export function GlobalContact({
     ? {
         aria: t("contact.global.aria.section"),
         eyebrow: t("contact.global.eyebrow"),
-        prompt: t("contact.global.prompt"),
         heading: t("contact.global.heading"),
-        subheading: t("contact.global.subheading"),
-        body: [
-          t("contact.global.body1"),
-          t("contact.global.body2"),
-          t("contact.global.body3"),
-        ],
-        signature: t("contact.global.signature"),
-        closing: t("contact.global.closing"),
+        body: [t("contact.global.body1")],
         phone: t("contact.detail.phone"),
         email: t("contact.detail.email"),
         entity: t("contact.detail.entity"),
@@ -169,7 +161,6 @@ export function GlobalContact({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setIsSuccess(true);

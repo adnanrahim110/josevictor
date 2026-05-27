@@ -15,12 +15,12 @@ export function ContactHero() {
       className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white text-primary-950"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -right-[5%] w-[60vw] h-[60vw] rounded-full bg-secondary-50 blur-[120px] mix-blend-multiply opacity-70" />
-        <div className="absolute top-[20%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-primary-50 blur-[100px] mix-blend-multiply opacity-50" />
+        <div className="absolute top-[-10%] right-[-5%] w-[60vw] h-[60vw] rounded-full bg-secondary-50 blur-[120px] mix-blend-multiply opacity-70" />
+        <div className="absolute top-[20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-primary-50 blur-[100px] mix-blend-multiply opacity-50" />
       </div>
 
       <Container className="relative z-10">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+        <div className="flex flex-col items-center text-center max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -35,7 +35,7 @@ export function ContactHero() {
 
           <Title className="text-6xl md:text-7xl lg:text-8xl mb-8 leading-[0.95] tracking-tight text-primary-950">
             {t("contact.hero.heading")}
-            <span className="block text-secondary-600 italic">
+            <span className="inline-block text-secondary-600 italic">
               {t("contact.hero.subheading")}
             </span>
           </Title>

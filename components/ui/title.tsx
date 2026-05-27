@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { HTMLMotionProps, motion } from "framer-motion";
 import React, { isValidElement, ReactNode } from "react";
@@ -29,6 +30,7 @@ export function Title({
   ...props
 }: TitleProps) {
   const Component = motion[as] as any;
+  const { locale } = useLocale();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -99,6 +101,7 @@ export function Title({
 
   return (
     <Component
+      key={locale}
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"

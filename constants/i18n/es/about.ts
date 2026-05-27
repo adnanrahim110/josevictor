@@ -12,4 +12,16 @@ export const about = {
   "about.work":
     "Ayudo a personas y organizaciones a dejar de adivinar y empezar a crecer, plantando las preguntas correctas, cuidando los sistemas correctos y cosechando lo que realmente importa.",
   "about.signature.caption": "José Víctor Jiménez",
+  "about.credentials.title": "Educación y Credenciales",
+  "about.credentials.description": "Una base sólida de excelencia académica y certificaciones profesionales que garantizan los más altos estándares de apoyo estratégico y clínico.",
+  "about.credentials.bullet1": "Bachillerato en Psicología",
+  "about.credentials.bullet2": "Certificación Six Sigma Black Belt",
+  "about.credentials.card1.title": "Doctorado en Administración de Empresas (ABD)",
+  "about.credentials.card1.subtitle": "Disertación en curso",
+  "about.credentials.card2.title": "Maestría",
+  "about.credentials.card2.subtitle": "Trabajo Social Clínico (MSW)",
+  "about.credentials.card3.title": "Trabajador Social Clínico Licenciado",
+  "about.credentials.card3.subtitle": "Licencia #16384 – Puerto Rico",
+  "about.credentials.card4.title": "Certificaciones Federales",
+  "about.credentials.card4.subtitle": "Certificación en Gestión de Subvenciones Federales (GMCP-Fed)",
 } as const;
