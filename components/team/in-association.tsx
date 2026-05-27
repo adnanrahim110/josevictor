@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
+import { useLocale } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -33,6 +34,7 @@ const associations = [
 ];
 
 export function InAssociation() {
+  const { t } = useLocale();
   const marqueeItems = [...associations, ...associations, ...associations];
 
   return (
@@ -45,7 +47,7 @@ export function InAssociation() {
             viewport={{ once: true }}
             className="text-2xl md:text-3xl font-heading font-medium text-primary-950"
           >
-            In Association with
+            {t("aboutPage.association.heading")}
           </motion.h3>
         </div>
       </Container>

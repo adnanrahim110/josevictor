@@ -1,8 +1,7 @@
 export const finalCta = {
   "finalCta.aria.section": "Ponte en contacto",
-  "finalCta.eyebrow": "Comienza",
-  "finalCta.heading":
-    "Si estás listo para llevar tu visión al siguiente nivel—",
+  "finalCta.eyebrow": "COMIENZA",
+  "finalCta.heading": "Si el próximo paso te está llamando, no lo dejes esperar.",
   "finalCta.cta.work": "Trabaja Conmigo",
-  "finalCta.cta.book": "Explorar el Libro",
+  "finalCta.cta.book": "Explora el Libro",
 } as const;

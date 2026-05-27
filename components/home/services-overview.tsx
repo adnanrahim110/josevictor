@@ -49,19 +49,24 @@ export function ServicesOverview() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const cards = gridRef.current?.querySelectorAll<HTMLElement>(".service-card");
+      const cards =
+        gridRef.current?.querySelectorAll<HTMLElement>(".service-card");
 
       if (reduce) {
-        if (cards && cards.length > 0) gsap.set(cards, { opacity: 1, scale: 1, y: 0 });
-        if (eyebrowRef.current) gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
-        if (headingRef.current) gsap.set(headingRef.current, { opacity: 1, y: 0 });
+        if (cards && cards.length > 0)
+          gsap.set(cards, { opacity: 1, scale: 1, y: 0 });
+        if (eyebrowRef.current)
+          gsap.set(eyebrowRef.current, { opacity: 1, y: 0 });
+        if (headingRef.current)
+          gsap.set(headingRef.current, { opacity: 1, y: 0 });
         if (ctaRef.current) gsap.set(ctaRef.current, { opacity: 1, y: 0 });
         return;
       }
 
       const triggers: ScrollTrigger[] = [];
 
-      if (cards && cards.length > 0) gsap.set(cards, { opacity: 0, scale: 0.95, y: 32 });
+      if (cards && cards.length > 0)
+        gsap.set(cards, { opacity: 0, scale: 0.95, y: 32 });
 
       [eyebrowRef.current, headingRef.current].forEach((el) => {
         if (!el) return;
@@ -84,7 +89,11 @@ export function ServicesOverview() {
           duration: 0.8,
           stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: gridRef.current, start: "top 80%", once: true },
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: "top 80%",
+            once: true,
+          },
         });
         if (tilesTween.scrollTrigger) triggers.push(tilesTween.scrollTrigger);
       }
@@ -139,7 +148,7 @@ export function ServicesOverview() {
 
           <div
             ref={gridRef}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 md:pt-[380px] relative z-10"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 md:pt-95 relative z-10"
           >
             {SERVICES.map((service) => (
               <ServiceCard key={service.id} service={service} />
@@ -147,7 +156,18 @@ export function ServicesOverview() {
           </div>
         </div>
 
-        <div ref={ctaRef} className="mt-8 md:mt-12">
+        <div
+          ref={ctaRef}
+          className="mt-8 md:mt-12 flex flex-col items-center gap-4"
+        >
+          <div className="max-w-2xl text-center">
+            <p className="font-heading text-2xl md:text-3xl text-primary-950">
+              {t("services.cta.lead")}
+            </p>
+            <p className="mt-2 text-base md:text-lg text-primary-700">
+              {t("services.cta.body")}
+            </p>
+          </div>
           <Button
             href={LINKS.scheduling}
             size="lg"
@@ -220,16 +240,36 @@ function ServicesRootConnectors() {
         preserveAspectRatio="none"
       >
         <defs>
-          <linearGradient id="services-root-main" x1="500" y1="0" x2="500" y2="360" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="services-root-main"
+            x1="500"
+            y1="0"
+            x2="500"
+            y2="360"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop offset="0" stopColor="#7f6a50" />
             <stop offset="0.5" stopColor="#9a8263" />
             <stop offset="1" stopColor="#c0a17a" />
           </linearGradient>
-          <linearGradient id="services-root-fine" x1="500" y1="40" x2="500" y2="370" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="services-root-fine"
+            x1="500"
+            y1="40"
+            x2="500"
+            y2="370"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop offset="0" stopColor="#8e785b" stopOpacity="0.72" />
             <stop offset="1" stopColor="#c9ad86" stopOpacity="0.34" />
           </linearGradient>
-          <filter id="services-root-texture" x="-10%" y="-10%" width="120%" height="120%">
+          <filter
+            id="services-root-texture"
+            x="-10%"
+            y="-10%"
+            width="120%"
+            height="120%"
+          >
             <feTurbulence
               type="fractalNoise"
               baseFrequency="0.018 0.09"
@@ -240,7 +280,11 @@ function ServicesRootConnectors() {
           </filter>
         </defs>
 
-        <g filter="url(#services-root-texture)" strokeLinecap="round" strokeLinejoin="round">
+        <g
+          filter="url(#services-root-texture)"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path
             data-services-root-draw
             d="M500 0 C490 58 452 102 410 134 C352 178 302 213 260 260 C222 301 190 326 175 352"
@@ -306,25 +350,70 @@ function ServicesRootConnectors() {
 
           <g stroke="url(#services-root-fine)" strokeWidth="3">
             <path data-services-root-draw d="M446 106 C418 105 390 88 368 64" />
-            <path data-services-root-draw d="M392 147 C366 154 340 146 315 126" />
-            <path data-services-root-draw d="M302 214 C274 211 252 194 232 170" />
-            <path data-services-root-draw d="M218 306 C190 298 169 278 153 250" />
-            <path data-services-root-draw d="M493 139 C470 160 450 184 437 212" />
-            <path data-services-root-draw d="M508 202 C534 220 553 248 563 282" />
-            <path data-services-root-draw d="M503 296 C480 314 462 338 454 366" />
+            <path
+              data-services-root-draw
+              d="M392 147 C366 154 340 146 315 126"
+            />
+            <path
+              data-services-root-draw
+              d="M302 214 C274 211 252 194 232 170"
+            />
+            <path
+              data-services-root-draw
+              d="M218 306 C190 298 169 278 153 250"
+            />
+            <path
+              data-services-root-draw
+              d="M493 139 C470 160 450 184 437 212"
+            />
+            <path
+              data-services-root-draw
+              d="M508 202 C534 220 553 248 563 282"
+            />
+            <path
+              data-services-root-draw
+              d="M503 296 C480 314 462 338 454 366"
+            />
             <path data-services-root-draw d="M554 105 C582 103 609 86 632 62" />
-            <path data-services-root-draw d="M608 148 C636 156 662 148 686 126" />
-            <path data-services-root-draw d="M700 214 C728 210 750 192 770 168" />
-            <path data-services-root-draw d="M782 306 C812 298 832 276 848 250" />
+            <path
+              data-services-root-draw
+              d="M608 148 C636 156 662 148 686 126"
+            />
+            <path
+              data-services-root-draw
+              d="M700 214 C728 210 750 192 770 168"
+            />
+            <path
+              data-services-root-draw
+              d="M782 306 C812 298 832 276 848 250"
+            />
           </g>
 
           <g stroke="#b89c77" strokeOpacity="0.5" strokeWidth="2">
-            <path data-services-root-draw d="M166 350 C158 339 154 326 158 314 C167 322 173 336 176 350" />
-            <path data-services-root-draw d="M187 350 C194 338 202 330 212 323 C207 337 198 346 187 350" />
-            <path data-services-root-draw d="M490 350 C481 338 478 326 482 313 C491 323 497 337 501 351" />
-            <path data-services-root-draw d="M512 350 C520 338 529 330 540 323 C535 337 524 346 512 350" />
-            <path data-services-root-draw d="M814 350 C806 338 802 326 806 314 C816 323 822 337 826 350" />
-            <path data-services-root-draw d="M836 350 C844 338 852 330 863 323 C858 337 848 346 836 350" />
+            <path
+              data-services-root-draw
+              d="M166 350 C158 339 154 326 158 314 C167 322 173 336 176 350"
+            />
+            <path
+              data-services-root-draw
+              d="M187 350 C194 338 202 330 212 323 C207 337 198 346 187 350"
+            />
+            <path
+              data-services-root-draw
+              d="M490 350 C481 338 478 326 482 313 C491 323 497 337 501 351"
+            />
+            <path
+              data-services-root-draw
+              d="M512 350 C520 338 529 330 540 323 C535 337 524 346 512 350"
+            />
+            <path
+              data-services-root-draw
+              d="M814 350 C806 338 802 326 806 314 C816 323 822 337 826 350"
+            />
+            <path
+              data-services-root-draw
+              d="M836 350 C844 338 852 330 863 323 C858 337 848 346 836 350"
+            />
           </g>
         </g>
       </svg>
@@ -340,7 +429,7 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <article
       className={cn(
-        "service-card group relative flex flex-col gap-5 p-6 sm:p-8 rounded-2xl border shadow-md transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl",
+        "service-card group relative flex flex-col gap-5 p-4 rounded-2xl border shadow-md transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl",
         palette.bg,
         palette.border,
       )}

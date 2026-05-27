@@ -119,12 +119,12 @@ export function AboutJove() {
               ref={headingRef}
               className="font-heading text-primary-950 leading-[1.05]"
             >
-              <span className="inline-block text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+              <span className="inline text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
                 {t("about.intro.iam")}
                 {t("about.intro.fullname")}
                 {t("about.intro.dash")}
               </span>
-              <span className="inline-block italic text-secondary-700 text-2xl sm:text-3xl md:text-4xl lg:text-6xl mt-2 ml-0 sm:ml-1 leading-[0.9]">
+              <span className="inline italic text-secondary-700 text-2xl sm:text-3xl md:text-4xl lg:text-6xl mt-2 ml-0 sm:ml-1 leading-[0.9]">
                 {t("about.intro.brandname")}
                 {t("about.intro.suffix")}
               </span>
@@ -155,7 +155,7 @@ export function AboutJove() {
             <div className="mt-4 flex flex-col items-start gap-2">
               <DrawSVG
                 trigger="scroll"
-                duration={2.2}
+                duration={1.5}
                 ease="power2.inOut"
                 stagger={0.18}
                 start="top 85%"

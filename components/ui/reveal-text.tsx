@@ -1,11 +1,11 @@
 "use client";
 
-import { ComponentType, ElementType, ReactNode, Ref, useRef } from "react";
+import { usePrefersReducedMotion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cn } from "@/lib/utils";
-import { usePrefersReducedMotion } from "@/lib/motion";
+import { ComponentType, ElementType, ReactNode, Ref, useRef } from "react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -100,7 +100,18 @@ export function RevealText({
     },
     {
       scope: containerRef,
-      dependencies: [children, splitBy, reduce, trigger, delay, stagger, duration, ease, start, once],
+      dependencies: [
+        children,
+        splitBy,
+        reduce,
+        trigger,
+        delay,
+        stagger,
+        duration,
+        ease,
+        start,
+        once,
+      ],
     },
   );
 

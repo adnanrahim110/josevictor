@@ -1,8 +1,8 @@
 export const header = {
-  "header.aria.brand": "Jove Jimenez — home",
+  "header.aria.brand": "Jove Jiménez — home",
   "header.aria.menu.open": "Open menu",
   "header.aria.menu.close": "Close menu",
-  "header.brand": "Jove Jimenez",
+  "header.brand": "Jove Jiménez",
   "header.nav.about": "About",
   "header.nav.services": "Services",
   "header.nav.book": "Book",

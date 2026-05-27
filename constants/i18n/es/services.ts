@@ -1,28 +1,35 @@
 export const services = {
   "services.aria.section": "Servicios",
-  "services.eyebrow": "Juntos",
-  "services.heading": "Cómo podemos trabajar juntos",
-  "services.consulting.title": "Consultoría Estratégica",
+  "services.eyebrow": "LA ALIANZA",
+  "services.heading": "Cómo trabajamos juntos",
+  "services.consulting.title": "Claridad Estratégica",
   "services.consulting.desc":
-    "Optimización del modelo de negocio, planificación estratégica y crecimiento sostenible.",
-  "services.workshops.title": "Talleres",
+    "Gobernanza, diseño de modelo de negocio y crecimiento sostenible, arraigados en la pregunta: ¿Qué estás construyendo y por qué?",
+  "services.workshops.title": "Talleres Inmersivos",
   "services.workshops.subtitle": "LEGO® Serious Play®",
   "services.workshops.desc":
-    "Experiencias prácticas para desbloquear el pensamiento, mejorar la comunicación y alinear equipos.",
-  "services.development.title": "Desarrollo Personal y Organizacional",
+    "Usando facilitación guiada (incluyendo LEGO® Serious Play®) para desbloquear nuevas formas de pensar, fortalecer la comunicación y alinear equipos alrededor de una dirección compartida.",
+  "services.development.title": "Desarrollo de Todo el Sistema",
   "services.development.desc":
-    "Integrando propósito, desempeño y bienestar en la toma de decisiones.",
+    "Integrando propósito, desempeño y bienestar en cada decisión, porque tu organización solo es tan fuerte como las personas que están dentro de ella.",
+  "services.cta.lead": "No necesitas más tiempo. Necesitas una decisión.",
+  "services.cta.body": "Caminemos hacia adelante juntos.",
   "services.cta": "Agenda una conversación",
-  "services.catalog.eyebrow": "Catálogo",
+  "services.catalog.eyebrow": "FORMAS EN QUE TRABAJAMOS",
   "services.catalog.heading": "Presentaciones y Facilitación",
-  "services.catalog.desc": "Explora nuestra selección de experiencias diseñadas para impulsar el crecimiento, la alineación y el bienestar.",
+  "services.catalog.desc":
+    "Una colección curada de experiencias creadas para llevarte de sentirte estancado a sentirte firme, con claridad, conexión e impulso.",
   "services.catalog.lego.title": "Talleres LEGO® Serious Play®",
-  "services.catalog.lego.desc": "Un proceso experiencial radicalmente innovador para mejorar la innovación y el rendimiento. Usamos bloques LEGO para facilitar la comunicación, la resolución de problemas y la alineación.",
-  "services.catalog.lego.tag": "Experiencia Destacada",
+  "services.catalog.lego.desc":
+    "Una forma práctica, radicalmente diferente, de pensar juntos. Usando bloques LEGO, desbloqueamos lo que las palabras por sí solas no pueden: comunicación más profunda, avances creativos y equipos que finalmente ven la misma imagen.",
+  "services.catalog.lego.tag": "EXPERIENCIA DESTACADA",
   "services.catalog.strategic.title": "Facilitación de Planificación Estratégica",
-  "services.catalog.strategic.desc": "Sesiones guiadas para alinear la misión, visión y objetivos operativos de tu organización.",
-  "services.catalog.leadership.title": "Liderazgo y Trabajo en Equipo",
-  "services.catalog.leadership.desc": "Presentaciones interactivas para cultivar un liderazgo inclusivo y emocionalmente inteligente.",
+  "services.catalog.strategic.desc":
+    "Alineamos tu misión, tus acciones diarias y tu dirección a largo plazo, para que todos sepan no solo qué hacer, sino por qué.",
+  "services.catalog.leadership.title": "Liderazgo y Construcción de Equipo",
+  "services.catalog.leadership.desc":
+    "Sesiones que forman líderes resilientes y centrados que escuchan, deciden y construyen confianza, no solo administran tareas.",
   "services.catalog.wellness.title": "Seminarios de Bienestar Laboral",
-  "services.catalog.wellness.desc": "Estrategias prácticas para promover la salud mental, prevenir el agotamiento y fomentar una cultura de apoyo.",
+  "services.catalog.wellness.desc":
+    "Herramientas prácticas para proteger la salud mental, detectar el agotamiento antes de que se extienda y crear una cultura donde las personas realmente puedan prosperar.",
 } as const;

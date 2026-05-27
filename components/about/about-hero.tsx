@@ -3,11 +3,17 @@
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { Title } from "@/components/ui/title";
+import { useLocale } from "@/lib/i18n";
 import { motion } from "framer-motion";
 
 export function AboutHero() {
+  const { t } = useLocale();
+
   return (
-    <Section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white text-primary-950">
+    <Section
+      aria-label={t("aboutPage.hero.aria.section")}
+      className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white text-primary-950"
+    >
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-0 right-0 w-[50vw] h-[50vw] rounded-full bg-secondary-100/50 blur-[120px] mix-blend-multiply opacity-70" />
         <div className="absolute -bottom-1/5 -left-1/10 w-[60vw] h-[60vw] rounded-full bg-primary-100/60 blur-[100px] mix-blend-multiply opacity-60" />
@@ -24,14 +30,15 @@ export function AboutHero() {
             >
               <span className="w-2 h-2 rounded-full bg-secondary-500 animate-pulse" />
               <span className="text-xs font-semibold tracking-widest text-primary-600 uppercase">
-                About Jose Victor Jimenez
+                {t("aboutPage.hero.eyebrow")}
               </span>
             </motion.div>
 
             <Title className="text-5xl md:text-6xl lg:text-7xl mb-8 leading-[1.1] text-primary-950">
-              Bridging the worlds of{" "}
-              <span className="text-secondary-600 italic">mental health</span>{" "}
-              and strategic consulting.
+              {t("aboutPage.hero.heading")}
+              <span className="block text-secondary-600 italic">
+                {t("aboutPage.hero.subheading")}
+              </span>
             </Title>
 
             <motion.p
@@ -44,8 +51,7 @@ export function AboutHero() {
               }}
               className="text-lg md:text-xl text-primary-600 max-w-2xl leading-relaxed font-medium"
             >
-              Licensed Clinical Social Worker | Strategic Consultant | Federal
-              Management and Program Analyst
+              {t("aboutPage.hero.body")}
             </motion.p>
           </div>
 
@@ -71,11 +77,10 @@ export function AboutHero() {
               className="absolute -bottom-6 -left-6 md:-left-12 bg-white rounded-2xl p-6 shadow-xl border border-primary-100 max-w-60"
             >
               <p className="text-sm font-bold text-primary-950 mb-1 font-heading">
-                Dual-Impact Approach
+                {t("aboutPage.hero.card.title")}
               </p>
               <p className="text-xs text-primary-600 leading-relaxed">
-                Empowering communities, elevating businesses, and supporting
-                individuals.
+                {t("aboutPage.hero.card.body")}
               </p>
             </motion.div>
           </div>

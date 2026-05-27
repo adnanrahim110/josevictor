@@ -20,14 +20,14 @@ export interface Service {
 
 export const SERVICES: readonly Service[] = [
   {
-    id: "consulting",
+    id: "strategic-clarity",
     titleKey: "services.consulting.title",
     descKey: "services.consulting.desc",
     Icon: Target,
     palette: "sage",
   },
   {
-    id: "workshops",
+    id: "immersive-workshops",
     titleKey: "services.workshops.title",
     subtitleKey: "services.workshops.subtitle",
     descKey: "services.workshops.desc",
@@ -35,7 +35,7 @@ export const SERVICES: readonly Service[] = [
     palette: "warm",
   },
   {
-    id: "development",
+    id: "whole-system-development",
     titleKey: "services.development.title",
     descKey: "services.development.desc",
     Icon: Sprout,

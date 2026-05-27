@@ -1,20 +1,24 @@
 export const differentiation = {
   "differentiation.aria.section": "Cómo trabajo",
-  "differentiation.eyebrow": "Cómo Trabajo",
+  "differentiation.eyebrow": "CÓMO TRABAJO",
   "differentiation.title.prefix": "Esto ",
-  "differentiation.title.highlight": "no es",
-  "differentiation.title.suffix": " consultoría tradicional",
+  "differentiation.title.highlight": "no",
+  "differentiation.title.suffix": " es consultoría tradicional.",
   "differentiation.intro":
-    "Mi enfoque combina estrategia, pensamiento estructurado y experiencias inmersivas como LEGO® Serious Play® para ayudarte a:",
+    "Mi enfoque fusiona disciplina estratégica, perspectiva centrada en las personas y facilitación guiada para ayudarte a:",
   "differentiation.lsp.label": "LEGO® Serious Play®",
-  "differentiation.outcomes.clarify.title": "Clarificar visión y dirección",
-  "differentiation.outcomes.decide.title": "Tomar mejores decisiones",
-  "differentiation.outcomes.align.title": "Alinear equipos",
-  "differentiation.outcomes.action.title": "Convertir ideas en acción",
-  "differentiation.closing.line1": "Esto no se trata de más información.",
+  "differentiation.outcomes.clarify.title":
+    "Dejas de adivinar y empiezas a ver lo que realmente tienes frente a ti.",
+  "differentiation.outcomes.decide.title":
+    "Las conversaciones difíciles se convierten en decisiones claras.",
+  "differentiation.outcomes.align.title":
+    "Los equipos dejan de separarse y empiezan a avanzar juntos.",
+  "differentiation.outcomes.action.title":
+    "La acción reemplaza la planificación interminable.",
+  "differentiation.closing.line1": "No se trata de llenar tu cabeza.",
   "differentiation.closing.line2.prefix": "Se trata de ",
-  "differentiation.closing.line2.clarity": "claridad",
-  "differentiation.closing.line2.connector": "—y ",
-  "differentiation.closing.line2.execution": "ejecución",
+  "differentiation.closing.line2.clarity": "liberar tus pies",
+  "differentiation.closing.line2.connector": " para ",
+  "differentiation.closing.line2.execution": "moverte",
   "differentiation.closing.line2.suffix": ".",
 } as const;

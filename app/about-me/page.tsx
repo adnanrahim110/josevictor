@@ -24,7 +24,7 @@ export default function AboutPage() {
       <MissionVision />
       <OurApproach />
       <InAssociation />
-      <GlobalContact />
+      <GlobalContact variant="pdf" />
     </main>
   );
 }

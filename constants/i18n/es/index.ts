@@ -9,7 +9,9 @@ import { differentiation } from "./differentiation";
 import { services } from "./services";
 import { impact } from "./impact";
 import { about } from "./about";
+import { aboutPage } from "./about-page";
 import { finalCta } from "./final-cta";
+import { contact } from "./contact";
 
 export const es: Dict = {
   ...common,
@@ -22,5 +24,7 @@ export const es: Dict = {
   ...services,
   ...impact,
   ...about,
+  ...aboutPage,
   ...finalCta,
+  ...contact,
 };

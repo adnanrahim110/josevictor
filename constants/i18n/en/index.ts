@@ -8,7 +8,9 @@ import { differentiation } from "./differentiation";
 import { services } from "./services";
 import { impact } from "./impact";
 import { about } from "./about";
+import { aboutPage } from "./about-page";
 import { finalCta } from "./final-cta";
+import { contact } from "./contact";
 
 export const en = {
   ...common,
@@ -21,7 +23,9 @@ export const en = {
   ...services,
   ...impact,
   ...about,
+  ...aboutPage,
   ...finalCta,
+  ...contact,
 } as const;
 
 export type TranslationKey = keyof typeof en;

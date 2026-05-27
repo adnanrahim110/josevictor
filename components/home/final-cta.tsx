@@ -42,12 +42,14 @@ export function FinalCta() {
 
       if (reduce) {
         if (revealItems.length > 0) gsap.set(revealItems, { opacity: 1, y: 0 });
-        if (petals.length > 0) gsap.set(petals, { opacity: 1, y: 0, rotate: 0, scale: 1 });
+        if (petals.length > 0)
+          gsap.set(petals, { opacity: 1, y: 0, rotate: 0, scale: 1 });
         return;
       }
 
       if (revealItems.length > 0) gsap.set(revealItems, { opacity: 0, y: 28 });
-      if (petals.length > 0) gsap.set(petals, { opacity: 0, y: 28, rotate: -3, scale: 0.96 });
+      if (petals.length > 0)
+        gsap.set(petals, { opacity: 0, y: 28, rotate: -3, scale: 0.96 });
 
       let revealTween: gsap.core.Tween | null = null;
       if (revealItems.length > 0) {
@@ -139,7 +141,7 @@ export function FinalCta() {
       className="relative overflow-hidden scroll-mt-24 bg-[linear-gradient(135deg,var(--color-secondary-50)_0%,var(--color-primary-50)_48%,white_100%)] py-20 text-primary-950 md:py-28 lg:py-32"
     >
       <Container className="relative z-10">
-        <div className="grid min-h-[440px] md:min-h-[540px] items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:gap-16">
+        <div className="grid min-h-110 md:min-h-135 items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:gap-16">
           <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left">
             <span
               data-final-reveal
@@ -154,7 +156,7 @@ export function FinalCta() {
               stagger={0.045}
               duration={0.9}
               start="top 85%"
-              className="mt-6 sm:mt-7 max-w-3xl font-heading text-4xl leading-[1.04] text-primary-950 sm:text-5xl md:text-6xl"
+              className="mt-6 sm:mt-7 max-w-3xl font-heading text-4xl text-primary-950 sm:text-5xl md:text-6xl leading-tight"
             >
               {t("finalCta.heading")}
             </RevealText>
@@ -173,7 +175,7 @@ export function FinalCta() {
                   variant="secondary"
                   icon={<ArrowRight className="w-5 h-5" />}
                   iconPosition="end"
-                  className="h-14 sm:h-16 px-6 sm:px-8 text-sm sm:text-base shadow-2xl shadow-secondary-300/45 justify-center w-full sm:w-auto"
+                  className="h-14 sm:h-16 px-6 sm:px-8 text-sm sm:text-base shadow-md shadow-secondary-300/45 justify-center w-full sm:w-auto"
                 >
                   {t("finalCta.cta.work")}
                 </Button>
@@ -199,7 +201,7 @@ export function FinalCta() {
 
           <div
             aria-hidden
-            className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[500px]"
+            className="relative min-h-70 sm:min-h-90 lg:min-h-125"
           >
             <div
               data-final-petal
@@ -211,18 +213,18 @@ export function FinalCta() {
             />
             <div
               data-final-petal
-              className="absolute right-[14%] top-[28%] h-56 w-36 rotate-[17deg] rounded-[999px_999px_160px_160px] bg-secondary-100/90 shadow-xl shadow-secondary-900/5 sm:h-72 sm:w-44"
+              className="absolute right-[14%] top-[28%] h-56 w-36 rotate-17 rounded-[999px_999px_160px_160px] bg-secondary-100/90 shadow-xl shadow-secondary-900/5 sm:h-72 sm:w-44"
             />
             <div
               data-final-petal
-              className="absolute bottom-[10%] left-[26%] h-40 w-28 rotate-[28deg] rounded-[999px_999px_140px_140px] bg-primary-200/55 shadow-lg shadow-primary-900/5 sm:h-48 sm:w-32"
+              className="absolute bottom-[10%] left-[26%] h-40 w-28 rotate-28 rounded-[999px_999px_140px_140px] bg-primary-200/55 shadow-lg shadow-primary-900/5 sm:h-48 sm:w-32"
             />
 
             <div
               data-final-reveal
               className="absolute inset-0 flex items-center justify-center"
             >
-              <span className="select-none font-heading text-[7rem] italic leading-none text-primary-950/10 sm:text-[9rem] md:text-[11rem]">
+              <span className="select-none font-heading text-[7rem] italic leading-none text-primary-950/10 sm:text-[9rem] md:text-[9rem]">
                 {t("header.brand")}
               </span>
             </div>

@@ -158,7 +158,7 @@ export function ImpactTestimonials() {
 
         <div
           ref={cardsRef}
-          className="w-full mt-2 flex md:grid md:grid-cols-3 gap-5 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none px-1 -mx-1 pb-4 md:pb-0 scrollbar-thin"
+          className="w-full mt-2 flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none px-1 -mx-1 pb-4 md:pb-0 scrollbar-thin"
         >
           {TESTIMONIALS.map((testimonial) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} />
@@ -219,9 +219,11 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           >
             {name}
           </span>
-          <span className={cn("font-sans text-xs sm:text-sm", palette.role)}>
-            {t(testimonial.roleKey)}
-          </span>
+          {t(testimonial.roleKey) && (
+            <span className={cn("font-sans text-xs sm:text-sm", palette.role)}>
+              {t(testimonial.roleKey)}
+            </span>
+          )}
         </div>
       </div>
     </article>

@@ -25,14 +25,15 @@ export function HomeHero() {
       const tagline = section.querySelector<HTMLElement>(".hero-tagline");
       const desc = section.querySelector<HTMLElement>(".hero-desc");
       const ctas = section.querySelector<HTMLElement>(".hero-ctas");
-      const scrollHint = section.querySelector<HTMLElement>(".hero-scroll");
       const scrollLine =
         section.querySelector<HTMLElement>(".hero-scroll-line");
       const divider = section.querySelector<HTMLElement>(".hero-divider");
 
       if (reduce) {
         gsap.set(
-          [eyebrow, ...Array.from(words), tagline, desc, ctas, divider].filter(Boolean),
+          [eyebrow, ...Array.from(words), tagline, desc, ctas, divider].filter(
+            Boolean,
+          ),
           { opacity: 1, y: 0, scale: 1, scaleX: 1 },
         );
         return;
@@ -47,12 +48,45 @@ export function HomeHero() {
 
       const tl = gsap.timeline();
 
-      if (eyebrow) tl.to(eyebrow, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 0.4);
-      if (words.length) tl.to(words, { opacity: 1, y: 0, rotateX: 0, duration: 1.2, stagger: 0.15, ease: "power3.out" }, 0.6);
-      if (divider) tl.to(divider, { scaleX: 1, duration: 1.2, ease: "power3.inOut" }, 1.4);
-      if (tagline) tl.to(tagline, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 1.6);
-      if (desc) tl.to(desc, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 1.9);
-      if (ctas) tl.to(ctas, { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 2.2);
+      if (eyebrow)
+        tl.to(
+          eyebrow,
+          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+          0.4,
+        );
+      if (words.length)
+        tl.to(
+          words,
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power3.out",
+          },
+          0.6,
+        );
+      if (divider)
+        tl.to(divider, { scaleX: 1, duration: 1.2, ease: "power3.inOut" }, 1.4);
+      if (tagline)
+        tl.to(
+          tagline,
+          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+          1.6,
+        );
+      if (desc)
+        tl.to(
+          desc,
+          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+          1.9,
+        );
+      if (ctas)
+        tl.to(
+          ctas,
+          { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
+          2.2,
+        );
 
       if (scrollLine) {
         gsap.to(scrollLine, {
@@ -94,13 +128,13 @@ export function HomeHero() {
       <Container className="relative z-10 flex flex-col items-center justify-center pt-28 pb-20 sm:pt-32 sm:pb-24 min-h-svh text-center pointer-events-none">
         <div
           ref={textWrapRef}
-          className="flex flex-col items-center gap-6 sm:gap-8 max-w-4xl w-full pointer-events-auto"
+          className="flex flex-col items-center gap-6 sm:gap-8 max-w-7xl w-full pointer-events-auto"
         >
           <span className="hero-eyebrow inline-block px-4 py-1.5 rounded-full border border-primary-200 bg-white/40 backdrop-blur-md font-heading italic text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.35em] uppercase text-primary-700/80 shadow-sm">
             {t("hero.eyebrow")}
           </span>
 
-          <h1 className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 md:gap-x-8 lg:gap-x-12 gap-y-2 mt-2 sm:mt-4">
+          <h1 className="flex flex-wrap justify-center gap-4 gap-y-1 mt-2 sm:mt-4">
             {headline.map((word, i) => (
               <span
                 key={i}

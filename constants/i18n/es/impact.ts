@@ -1,19 +1,23 @@
 export const impact = {
   "impact.aria.section": "Impacto",
-  "impact.eyebrow": "Impacto",
+  "impact.eyebrow": "Con quién camino",
   "impact.lead":
-    "He trabajado con emprendedores, organizaciones y equipos que buscan algo más que crecimiento—buscan claridad, dirección y resultados reales.",
-  "impact.voices.label": "Voces",
+    "Emprendedores, organizaciones y equipos que han dejado de pedir más y han empezado a preguntar por lo que realmente funciona.",
+  "impact.voices.label": "Testimonios",
   "impact.testimonial.1.quote":
-    "Jose nos ayudó a ver lo que no podíamos ver por nosotros mismos. La claridad cambió nuestra trayectoria.",
-  "impact.testimonial.1.name": "María González",
-  "impact.testimonial.1.role": "CEO, Atlas Capital",
+    "“Llegué a Jove sintiéndome estancada. Muchas ideas, cero claridad. No me dio una charla motivacional, me dio un espejo y un mapa. Ahora realmente sé qué estoy construyendo y por qué. Eso lo es todo.”",
+  "impact.testimonial.1.name": "Nichole Marquez",
+  "impact.testimonial.1.role": "",
   "impact.testimonial.2.quote":
-    "Sus talleres con LEGO no son un truco. Desbloquearon conversaciones que evitábamos desde hacía años.",
-  "impact.testimonial.2.name": "David Reyes",
-  "impact.testimonial.2.role": "Director de Estrategia, Aurora Group",
+    "“La mayoría de los consultores se enfocan en sistemas O en personas. Jove sostiene ambos. Nos ayudó a rediseñar nuestro proceso de admisión sin perder nuestra compasión. Nuestro personal se siente más ligero. Nuestros números subieron. Eso nunca pasa.”",
+  "impact.testimonial.2.name": "Julie Okonkwo",
+  "impact.testimonial.2.role": "Directora Clínica",
   "impact.testimonial.3.quote":
-    "Trabajar con Jove se sintió como volver a casa, a mi propio pensamiento. Estrategia con corazón.",
-  "impact.testimonial.3.name": "Sofía Martín",
-  "impact.testimonial.3.role": "Fundadora, Liminal Studio",
+    "“No pensé que necesitara una ‘filosofía’ para dirigir mi empresa. Pero Jove hizo una pregunta: ‘¿Qué estás tratando realmente de dejar atrás?’ y cambió cómo contrato, cómo lidero y cómo duermo por la noche.”",
+  "impact.testimonial.3.name": "Marcus T. Williams",
+  "impact.testimonial.3.role": "Dueño de Pequeña Empresa",
+  "impact.testimonial.4.quote":
+    "“Estábamos agotándonos y culpándonos unos a otros. Jove no nos arregló de la noche a la mañana. Nos dio un marco, simple, repetible, humano. Seis meses después, seguimos usándolo. Esa es la verdadera prueba.”",
+  "impact.testimonial.4.name": "Ann Lopez",
+  "impact.testimonial.4.role": "Líder de Equipo Digital",
 } as const;

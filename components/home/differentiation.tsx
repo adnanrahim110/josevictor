@@ -1,7 +1,10 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
-import { OUTCOMES, type OutcomeTile } from "@/constants/content/differentiation";
+import {
+  OUTCOMES,
+  type OutcomeTile,
+} from "@/constants/content/differentiation";
 import { useLocale } from "@/lib/i18n";
 import { usePrefersReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -84,7 +87,11 @@ export function Differentiation() {
         if (fadeOut.scrollTrigger) triggers.push(fadeOut.scrollTrigger);
       }
 
-      const elementsFadeUp: { el: Element | null; start: string; delay?: number }[] = [
+      const elementsFadeUp: {
+        el: Element | null;
+        start: string;
+        delay?: number;
+      }[] = [
         { el: titleRef.current, start: "top 80%" },
         { el: introRef.current, start: "top 82%" },
         { el: badgeRef.current, start: "top 85%" },
@@ -152,7 +159,7 @@ export function Differentiation() {
 
         <h2
           ref={titleRef}
-          className="font-heading text-4xl sm:text-5xl md:text-6xl text-primary-950 leading-[1.05] max-w-3xl"
+          className="font-heading text-4xl sm:text-5xl md:text-6xl text-primary-950 leading-[1.05] max-w-6xl"
         >
           {t("differentiation.title.prefix")}
           <span className="italic text-secondary-700 font-medium">
@@ -163,7 +170,7 @@ export function Differentiation() {
 
         <p
           ref={introRef}
-          className="font-sans text-base sm:text-lg md:text-xl text-primary-800/90 leading-relaxed max-w-2xl"
+          className="font-sans text-base sm:text-lg md:text-xl text-primary-800/90 leading-relaxed max-w-5xl"
         >
           {t("differentiation.intro")}
         </p>
@@ -225,10 +232,7 @@ function Tile({ tile, index }: { tile: OutcomeTile; index: number }) {
         hoverRotate,
       )}
     >
-      <div
-        aria-hidden
-        className="absolute top-3 left-6 flex gap-2"
-      >
+      <div aria-hidden className="absolute top-3 left-6 flex gap-2">
         <span className={cn("size-2 rounded-full", palette.stud)} />
         <span className={cn("size-2 rounded-full", palette.stud)} />
       </div>

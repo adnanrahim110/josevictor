@@ -1,6 +1,6 @@
 export const footer = {
   "footer.tagline":
-    "Estrategia, propósito y transformación para personas y organizaciones listas para evolucionar.",
+    "Para quienes ya terminaron de adivinar y están listos para construir, con estrategia, propósito y el coraje de cambiar.",
   "footer.section.explore": "Explorar",
   "footer.section.connect": "Conectar",
   "footer.section.follow": "Seguir",

@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
+import { useLocale } from "@/lib/i18n";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Lightbulb, Target } from "lucide-react";
 import { useRef } from "react";
@@ -8,6 +9,7 @@ import { useRef } from "react";
 import { Title } from "@/components/ui/title";
 
 export function MissionVision() {
+  const { t } = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -36,15 +38,16 @@ export function MissionVision() {
               transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             >
               <span className="text-sm font-semibold tracking-[0.2em] text-primary-500 uppercase mb-6 block">
-                Our Foundation
+                {t("aboutPage.foundation.eyebrow")}
               </span>
               <Title className="text-5xl md:text-6xl mb-8 text-primary-950">
-                Core values that <br />
-                <span className="text-secondary-600 italic">drive impact</span>.
+                {t("aboutPage.foundation.heading")}
               </Title>
+              <p className="font-heading text-2xl italic text-secondary-700 leading-snug mb-6 max-w-md">
+                {t("aboutPage.foundation.quote")}
+              </p>
               <p className="text-lg text-primary-600 leading-relaxed max-w-md">
-                We believe in a future where purpose-driven organizations and
-                individuals thrive with clarity, confidence, and care.
+                {t("aboutPage.foundation.body")}
               </p>
             </motion.div>
           </div>
@@ -64,17 +67,17 @@ export function MissionVision() {
                   <Target className="w-8 h-8" />
                 </div>
                 <h3 className="text-3xl md:text-4xl font-heading font-semibold mb-8">
-                  Our Mission
+                  {t("aboutPage.mission.heading")}
                 </h3>
+                <p className="font-heading italic text-2xl text-secondary-300 mb-6">
+                  {t("aboutPage.mission.subheading")}
+                </p>
                 <p className="text-lg md:text-xl leading-relaxed text-primary-200">
-                  Empowering growth through strategy, compassion, and
-                  sustainability. Our mission is to empower individuals and
-                  organizations by delivering holistic, strategic management
-                  consulting, and socially conscious solutions.
+                  {t("aboutPage.mission.body")}
                 </p>
                 <div className="mt-8 pt-8 border-t border-white/10">
                   <p className="text-primary-400 text-sm italic">
-                    Bridging the gap between business and wellness.
+                    {t("aboutPage.mission.quote")}
                   </p>
                 </div>
               </div>
@@ -94,17 +97,17 @@ export function MissionVision() {
                   <Lightbulb className="w-8 h-8" />
                 </div>
                 <h3 className="text-3xl md:text-4xl font-heading font-semibold mb-8">
-                  Our Vision
+                  {t("aboutPage.vision.heading")}
                 </h3>
+                <p className="font-heading italic text-2xl text-secondary-700 mb-6">
+                  {t("aboutPage.vision.subheading")}
+                </p>
                 <p className="text-lg md:text-xl leading-relaxed text-primary-700">
-                  To build a future where purpose-driven organizations and
-                  individuals thrive with clarity, confidence, and care. We
-                  envision a world where every individual and organization has
-                  access to tools that promote growth, balance, and purpose.
+                  {t("aboutPage.vision.body")}
                 </p>
                 <div className="mt-8 pt-8 border-t border-primary-100">
                   <p className="text-primary-500 text-sm italic">
-                    Leading a new era where strategy meets soul.
+                    {t("aboutPage.vision.quote")}
                   </p>
                 </div>
               </div>

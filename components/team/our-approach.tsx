@@ -2,11 +2,19 @@
 
 import { Container } from "@/components/ui/container";
 import { Title } from "@/components/ui/title";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useLocale } from "@/lib/i18n";
+import {
+  motion,
+  type MotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { Ear, Presentation, Users } from "lucide-react";
-import { useRef } from "react";
+import { type ReactNode, useRef } from "react";
 
 export function OurApproach() {
+  const { t } = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -21,27 +29,28 @@ export function OurApproach() {
 
   const steps = [
     {
-      title: "We listen deeply.",
+      title: t("aboutPage.approach.step1.title"),
       icon: <Ear className="w-10 h-10" />,
-      description:
-        "Understanding your unique ecosystem, challenges, and goals without assumptions.",
+      description: t("aboutPage.approach.step1.body"),
     },
     {
-      title: "We plan thoughtfully.",
+      title: t("aboutPage.approach.step2.title"),
       icon: <Presentation className="w-10 h-10" />,
-      description:
-        "Developing strategic, sustainable roadmaps that align with both operational success and emotional well-being.",
+      description: t("aboutPage.approach.step2.body"),
     },
     {
-      title: "We act collaboratively.",
+      title: t("aboutPage.approach.step3.title"),
       icon: <Users className="w-10 h-10" />,
-      description:
-        "Partnering closely to implement solutions, building resilience and lasting success together.",
+      description: t("aboutPage.approach.step3.body"),
     },
   ];
 
   return (
-    <section className="py-24 lg:py-32 bg-primary-50" ref={containerRef}>
+    <section
+      ref={containerRef}
+      aria-label={t("aboutPage.approach.aria.section")}
+      className="py-24 lg:py-32 bg-primary-50"
+    >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
           <div className="lg:col-span-5">
@@ -52,23 +61,20 @@ export function OurApproach() {
               transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             >
               <span className="text-sm font-semibold tracking-[0.2em] text-primary-500 uppercase mb-6 block">
-                Our Approach
+                {t("aboutPage.approach.eyebrow")}
               </span>
               <Title className="text-4xl lg:text-5xl mb-8 text-primary-950">
-                Rooted in <br />{" "}
-                <span className="text-secondary-600 italic">empathy</span>,
-                strategy, & sustainability.
+                {t("aboutPage.approach.heading")}
+                <span className="block text-secondary-600 italic">
+                  {t("aboutPage.approach.subheading")}
+                </span>
               </Title>
               <p className="text-lg text-primary-600 leading-relaxed mb-8">
-                By combining expertise in strategic management consulting,
-                clinical social work, and inclusive leadership, we guide our
-                clients through personalized journeys that foster growth,
-                resilience, and lasting success.
+                {t("aboutPage.approach.body")}
               </p>
               <div className="p-6 bg-primary-50 border border-primary-100 rounded-3xl inline-block">
                 <p className="text-primary-900 font-heading font-medium text-lg italic">
-                  "We believe in meeting people and organizations where they
-                  are—and building forward, together."
+                  {t("aboutPage.approach.quote")}
                 </p>
               </div>
             </motion.div>
@@ -83,37 +89,57 @@ export function OurApproach() {
                 />
               </div>
 
-              {steps.map((step, index) => {
-                const yOffset = useTransform(
-                  scrollYProgress,
-                  [0, 1],
-                  [50 * (index + 1), -50 * (index + 1)],
-                );
-
-                return (
-                  <motion.div
-                    key={index}
-                    style={{ y: yOffset }}
-                    className="relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 bg-white p-8 rounded-4xl border border-primary-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
-                  >
-                    <div className="shrink-0 w-20 h-20 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 border border-primary-100">
-                      {step.icon}
-                    </div>
-                    <div className="flex flex-col justify-center">
-                      <h4 className="text-2xl font-heading font-semibold text-primary-950 mb-3">
-                        {step.title}
-                      </h4>
-                      <p className="text-primary-600 leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
+              {steps.map((step, index) => (
+                <ApproachStep
+                  key={step.title}
+                  index={index}
+                  scrollYProgress={scrollYProgress}
+                  title={step.title}
+                  icon={step.icon}
+                  description={step.description}
+                />
+              ))}
             </div>
           </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+function ApproachStep({
+  index,
+  scrollYProgress,
+  title,
+  icon,
+  description,
+}: {
+  index: number;
+  scrollYProgress: MotionValue<number>;
+  title: string;
+  icon: ReactNode;
+  description: string;
+}) {
+  const yOffset = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [50 * (index + 1), -50 * (index + 1)],
+  );
+
+  return (
+    <motion.article
+      style={{ y: yOffset }}
+      className="relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 bg-white p-8 rounded-4xl border border-primary-100 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
+    >
+      <div className="shrink-0 w-20 h-20 rounded-2xl bg-primary-50 flex items-center justify-center text-primary-600 border border-primary-100">
+        {icon}
+      </div>
+      <div className="flex flex-col justify-center">
+        <h4 className="text-2xl font-heading font-semibold text-primary-950 mb-3">
+          {title}
+        </h4>
+        <p className="text-primary-600 leading-relaxed">{description}</p>
+      </div>
+    </motion.article>
   );
 }

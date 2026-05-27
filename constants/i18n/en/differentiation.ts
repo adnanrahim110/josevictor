@@ -1,20 +1,24 @@
 export const differentiation = {
   "differentiation.aria.section": "How I work",
-  "differentiation.eyebrow": "How I Work",
+  "differentiation.eyebrow": "HOW I WORK",
   "differentiation.title.prefix": "This is ",
   "differentiation.title.highlight": "not",
-  "differentiation.title.suffix": " traditional consulting",
+  "differentiation.title.suffix": " traditional consulting.",
   "differentiation.intro":
-    "My approach combines strategy, structured thinking, and immersive experiences like LEGO® Serious Play® to help you:",
+    "My approach fuses strategic discipline, human-centered insight, and guided facilitation to help you:",
   "differentiation.lsp.label": "LEGO® Serious Play®",
-  "differentiation.outcomes.clarify.title": "Clarify vision and direction",
-  "differentiation.outcomes.decide.title": "Make better decisions",
-  "differentiation.outcomes.align.title": "Align teams",
-  "differentiation.outcomes.action.title": "Turn ideas into action",
-  "differentiation.closing.line1": "This is not about more information.",
-  "differentiation.closing.line2.prefix": "It's about ",
-  "differentiation.closing.line2.clarity": "clarity",
-  "differentiation.closing.line2.connector": "—and ",
-  "differentiation.closing.line2.execution": "execution",
+  "differentiation.outcomes.clarify.title":
+    "You stop guessing and start seeing what's really in front of you.",
+  "differentiation.outcomes.decide.title":
+    "Hard conversations become clear decisions.",
+  "differentiation.outcomes.align.title":
+    "Teams stop pulling apart and start pulling together.",
+  "differentiation.outcomes.action.title": "Action replaces endless planning.",
+  "differentiation.closing.line1":
+    "This isn’t about filling your head.",
+  "differentiation.closing.line2.prefix": "It’s about ",
+  "differentiation.closing.line2.clarity": "freeing your feet",
+  "differentiation.closing.line2.connector": " to ",
+  "differentiation.closing.line2.execution": "move",
   "differentiation.closing.line2.suffix": ".",
 } as const;

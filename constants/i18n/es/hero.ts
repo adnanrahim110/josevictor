@@ -1,16 +1,16 @@
 export const hero = {
   "hero.aria.section": "Introducción",
-  "hero.aria.sprout": "Ilustración del brote en verde salvia",
+  "hero.aria.sprout": "Ilustración de brote de salvia",
   "hero.aria.beam": "Luz dorada",
-  "hero.eyebrow": "José Víctor Jiménez · Jove",
-  "hero.headline.live": "Vive.",
-  "hero.headline.love": "Ama.",
-  "hero.headline.learn": "Aprende.",
-  "hero.subheadline.line1": "No estás perdido…",
-  "hero.subheadline.line2": "estás transformándote.",
-  "hero.subheadline2":
-    "Estrategia, propósito y transformación para personas y organizaciones listas para evolucionar.",
-  "hero.cta.book": "Explorar el Libro",
+  "hero.eyebrow": "Jove Jiménez",
+  "hero.headline.live": "Tu vida cambia",
+  "hero.headline.love": "en el momento",
+  "hero.headline.learn": "en que decides…",
+  "hero.subheadline.line1":
+    "“No necesitas más tiempo. Necesitas una decisión.”",
+  "hero.subheadline.line2": "No estás aquí por accidente.",
+  "hero.subheadline2": "Estás aquí para decidir.",
+  "hero.cta.book": "Explora el Libro",
   "hero.cta.work": "Trabaja Conmigo",
-  "hero.scroll": "Desliza",
+  "hero.scroll": "Desplazar",
 } as const;
